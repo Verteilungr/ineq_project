@@ -1,119 +1,107 @@
 # Data Preparation Hungary
 # Authors: Azad, Zoeldi
-# Description: Connection to WU Database, creat variables, output for analysis 
-# in hun_report.Rmd. We loop the process along the EU-SILC because many
-# variables are not avalilable for the full time-frame or have changed.
-# Output: Dataframes "hun_p" and "hun_h"
+# Description: select variables in every years and merge to our local dataframe
+# Output: dataframes 'hun_{p,h,d,r}'
 
-library(doBy)
 
 ### read script for connection: password needed
 source('R/_connection.R')
 
 ### the whole script is a loop 
-for (year in c('05', '06', '07', '08', '09', '10', '11', '12', '13')){
+for (year in c('04', '05', '06', '07', '08', '09', '10', '11', '12', '13')){
   
-  ### soc. contrbution variables first in 2007
-  if (year %in% c('05', '06')) {
-    soccontrib = NULL
+  ### company car till 2006 as py020g then as py021g
+  if (year %in% c('04', '05', '06')) {
+    companycar = 'py020g'
   } else {
-    soccontrib = c('py030g', 'py031g')
+    companycar = 'py021g'
   }
   
-  ### hh production first in 2010:
-  if (year %in% c('05', '06', '07', '08', '09')) {
-    hhprod = NULL
+  ### numbe of month in work changed in 2009
+  if (year %in% c('04', '05', '06', '07', '08')) {
+    month = c('pl070', 'pl072')
   } else {
-    hhprod = 'hy170g'
+    month = c('pl073', 'pl074')
   }
   
-  ### alimonies first in 2007
-  if (year %in% c('05', '06')) {
-    alimreceive = NULL
+  ### isco code changed in 2010
+  if (year %in% c('04', '05', '06', '07', '08', '09')) {
+    isco = 'pl050'
   } else {
-    alimreceive = 'hy081g'
+    isco = 'pl051'
   }
   
-  if (year %in% c('05', '06')) {
-    alimpaid = NULL
+  ### nace code changed in 2008
+  if (year %in% c('04', '05', '06', '07')) {
+    nace = 'pl110'
   } else {
-    alimpaid = 'hy131g'
+    nace = 'pl111'
   }
-  
   ### load data for HUN in every year 
-  silc.p = tbl(pg, paste0('c', year, 'p')) %>% 
+  silc_p = tbl(pg, paste0('c', year, 'p')) %>% 
     filter(pb020 == 'HU') %>%
     select(pb010, pb020, px030, pb030, pb040, pb140,
            # year, country, household ID, personal ID, pweight, birthdate
-           py010g, py050g,
-           #labour income (1)
+           py010g, companycar, py050g,
+           # employee cash, company car, self-employed cash
            py080g, py100g,
-           # old-age benefit, private pension (4)
+           # old-age benefit, private pension
            py090g, py110g, py120g, py130g, py140g,
-           #unemployment, survivor, sickness, disability, education (5/1)
-           soccontrib, py035g
-           # employers social contribution, same optional, contribution private
-           # pension (6/1)
+           #unemployment, survivor, sickness, disability, education
+           pb150, pb200, pe040, pe030,
+           # sex, consensual union, education, education left
+           pl200, pl190, month, pl060, pl100, isco, nace, pl130, pl140
+           # years of exper, years since first job, month, hours first, hours
+           # second, isco, nace, firm size, contract type
            ) %>%
     collect(n=Inf)
   
   ### load household data for HUN in every year
-  silc.h <- tbl(pg, paste0('c', year, 'h')) %>%
+  silc_h <- tbl(pg, paste0('c', year, 'h')) %>%
     filter(hb020 == 'HU') %>%
     select(hb010, hb020, hb030,
            # year, country, household ID
-           hy040g, hhprod, 
-           # property (2), own produdction (drom 2010) (3)
+           hy040g, 
+           # property (2)
            hy010, hy020, hx090,
            # allinone (1:5), postax (1:6), equi disposable 
-           hy050g, hy060g, hy070g, hy080g, alimreceive, hy090g, hy100g, hy110g,
+           hy050g, hy060g, hy070g, hy080g, hy090g, hy110g,
            # family allowance, social else, housing allowance, interhh transfer,
-           # alimonies (from 2007), capital income, repayment on mortgages,
+           # capital income
            # income from member less 16 (5/2)
-           hy120g, hy130g, alimpaid, hy140g,
-           # tax wealth, interhh payment, alimonies payed (from 2007), tax on
-           # income and social controbution (6/2)
+           hy120g, hy130g, hy140g,
+           # tax wealth, interhh payment, tax on
+           # income and social controbution
            hx050
            # equi hh size
            ) %>%
     collect(n=Inf)
   
   ### load household register for HUN in every year
-  silc.d <- tbl(pg, paste0('c', year, 'd')) %>%
-    filter(db020 == 'HU') %>%
-    select(db010, db020, db030, db040, db090
-           #year, country, household ID, region, hweight
-           ) %>%
+  silc_d <- tbl(pg, paste0('c', year, 'd')) %>%
+    filter(db020 == 'HU') %>% 
     collect(n=Inf)
   
-  ### uniqe hh-ID
-  silc.p = silc.p %>% mutate(id_h = paste0(pb010, px030))
-  silc.h = silc.h %>% mutate(id_h = paste0(hb010, hb030))
-  silc.d = silc.d %>% mutate(id_h = paste0(db010, db030))
-  
-  ### bindig personal and hh observations
-  silc.hd = left_join(silc.d, silc.h, by = 'id_h')
-  silc.phd = left_join(silc.hd, silc.p, by = 'id_h')
-  
-  ### collapse personal data by hh and bind to hh data
-  silc.hdp = silc.p %>% 
-    group_by(id_h) %>% 
-    summarise(py010g_hh = sum(py010g),
-              py050g_hh = sum(py050g),
-              py080g_hh = sum(py080g),
-              py100g_hh = sum(py100g)) %>%
-    left_join(silc.hd, by = 'id_h')
+  ### load personal refógister for HUN in every year
+  silc_r <- tbl(pg, paste0('c', year, 'r')) %>%
+    filter(rb020 == 'HU') %>% 
+    collect(n=Inf)
+ 
   
   ### create dataframes that we use for the analysis
-  if (year == '05') {
-    hun_p = silc.phd
-    hun_h = silc.hdp
+  if (year == '04') {
+    hun_p = silc_p
+    hun_h = silc_h
+    hun_d = silc_d
+    hun_r = silc_r
   } else {
-    hun_p = bind_rows(silc.phd, hun_p)
-    hun_h = bind_rows(silc.hdp, hun_h)
+    hun_p = bind_rows(silc_p, hun_p)
+    hun_h = bind_rows(silc_h, hun_h)
+    hun_d = bind_rows(silc_d, hun_d)
+    hun_r = bind_rows(silc_r, hun_r)
   }
   
-  #Message
+  ### Message
   print(paste("SILC", year, "for Hungary is ready"))
   if (year== '13') {
     print("READYYY!!!")
@@ -121,4 +109,4 @@ for (year in c('05', '06', '07', '08', '09', '10', '11', '12', '13')){
   
 }
 
-rm(list=setdiff(ls(), c('hun_h', 'hun_p')))
+rm(list=setdiff(ls(), c('hun_p', 'hun_h', 'hun_d', 'hun_r')))
