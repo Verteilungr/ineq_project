@@ -8,7 +8,8 @@
 source('R/_connection.R')
 
 ### the whole script is a loop 
-for (year in c('04', '05', '06', '07', '08', '09', '10', '11', '12', '13')){
+for (year in c('04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14',
+               '15', '16', '17')){
   
   ### company car till 2006 as py020g then as py021g
   if (year %in% c('04', '05', '06')) {
@@ -24,8 +25,8 @@ for (year in c('04', '05', '06', '07', '08', '09', '10', '11', '12', '13')){
     month = c('pl073', 'pl074')
   }
   
-  ### isco code changed in 2010
-  if (year %in% c('04', '05', '06', '07', '08', '09')) {
+  ### isco code changed in 2011
+  if (year %in% c('04', '05', '06', '07', '08', '09', '10')) {
     isco = 'pl050'
   } else {
     isco = 'pl051'
@@ -79,11 +80,13 @@ for (year in c('04', '05', '06', '07', '08', '09', '10', '11', '12', '13')){
   
   ### load household register for HUN in every year
   silc_d <- tbl(pg, paste0('c', year, 'd')) %>%
+    select(db010, db020, db030, db040, db090, db100) %>%
     filter(db020 == 'HU') %>% 
     collect(n=Inf)
   
-  ### load personal refógister for HUN in every year
+  ### load personal register for HUN in every year
   silc_r <- tbl(pg, paste0('c', year, 'r')) %>%
+    select(rb010, rb020, rb030, rb050, rb080, rx030) %>%
     filter(rb020 == 'HU') %>% 
     collect(n=Inf)
  
@@ -103,10 +106,15 @@ for (year in c('04', '05', '06', '07', '08', '09', '10', '11', '12', '13')){
   
   ### Message
   print(paste("SILC", year, "for Hungary is ready"))
-  if (year== '13') {
+  if (year== '17') {
     print("READYYY!!!")
   }
   
 }
 
 rm(list=setdiff(ls(), c('hun_p', 'hun_h', 'hun_d', 'hun_r')))
+
+#save(hun_p, file = 'C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_p.RData')
+#save(hun_r, file = 'C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_r.RData')
+#save(hun_d, file = 'C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_d.RData')
+#save(hun_h, file = 'C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_h.RData')

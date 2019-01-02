@@ -1,0 +1,39 @@
+---
+title: "Einkommensverteilung in Ungarn"
+subtitle: "2063 - Ökonomie der Verteilung"
+author: "Razik Azad & Laszlo Zoltan Zöldi"
+abstract: "Hier kommt noch unser Abstract, muss am Ende geschrieben werden."
+keywords: "a, b, c"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: 
+  pdf_document:
+    toc: true
+    includes: 
+      in_header: hun_header.tex
+bibliography: hun_references.bib
+---
+
+\newpage
+
+```{r}
+```
+
+
+\newpage
+
+# Einführung
+
+# Methodologie
+
+## Daten
+
+## Indikatoren
+
+# Ergebnisse
+
+# Zusammenfassung
+
+
+# Literatur
+
+<!-- Leer lassen -->
