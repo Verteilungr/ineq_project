@@ -11,13 +11,15 @@ library(convey)
 svy_hun_p1 = svydesign(ids = ~idp,
                        strata = ~db040,
                        weights = ~rb050,
-                       data = subset(hun_p1, pretax_factor_eq >= 0)) %>% convey_prep()
+                       data = subset(hun_p1, pretax_factor_eq >= 0)) %>% 
+  convey_prep()
 
 # wid.world (P2)
 svy_hun_p2 = svydesign(ids = ~idp,
                        strata = ~db040,
                        weights = ~pb040,
-                       data = subset(hun_p2, pretax_factor_20 >= 0)) %>% convey_prep()
+                       data = subset(hun_p2, pretax_factor_20 >= 0)) %>% 
+  convey_prep()
 
 ################################################################################
 ###################### Idicators: Eurostat (P1) ################################
@@ -62,7 +64,12 @@ temp=data.frame(svyby(as.formula(paste("~", var)),
 stat_p = bind_rows(stat_p, temp)
 
 #P80/P20
-temp = svyby(as.formula(paste("~", var)), 
+if (var == 'pretax_factor_eq') {
+  temp = data.frame(rb010 = as.numeric(c(2005:2017)), 
+                    stat = c(rep('P80/P20', 13)), 
+                    pretax_factor_eq = c(rep(NA, 13)))
+} else {
+  temp = svyby(as.formula(paste("~", var)), 
              by = ~rb010, 
              svy_hun_p1, 
              svyqsr,
@@ -71,6 +78,7 @@ temp = svyby(as.formula(paste("~", var)),
              keep.names = F) %>% 
   mutate(stat= 'P80/P20') %>%
   select(rb010, stat, var)
+}
 
 stat_p = bind_rows(stat_p, temp)
 
@@ -154,8 +162,8 @@ for (var in c('pretax_factor_20', 'pretax_nation_20', 'posttax_disp_20')) {
                by = ~pb010, 
                svy_hun_p2, 
                svyqsr, 
-               alpha1 = 0.22, 
-               alpha2 = (1-0.22), 
+               alpha1 = 0.20, 
+               alpha2 = (1-0.20), 
                keep.names = F) %>% 
     mutate(stat= 'P80/P20') %>%
     select(pb010, stat, var)
@@ -190,3 +198,45 @@ for (var in c('pretax_factor_20', 'pretax_nation_20', 'posttax_disp_20')) {
 }
 
 rm(stat_p, sub, temp, var, y)
+
+################################################################################
+################################################################################
+################################################################################
+
+descript = hundat %>% 
+  group_by(pb010) %>% 
+  summarise(mean = wtd.mean(log(hwage), weights = pb040),
+            q25 = wtd.quantile(hwage, weights = pb040, probs = 0.25),
+            q50 = wtd.quantile(hwage, weights = pb040, probs = 0.50),
+            q75 = wtd.quantile(hwage, weights = pb040, probs = 0.75))
+
+descript = hundat %>% 
+  filter(region2 == 'East') %>% 
+  group_by(pb010) %>%
+  summarise(mean_E = wtd.mean(log(hwage), weights = pb040),
+            q25_E = wtd.quantile(log(hwage), weights = pb040, probs = 0.25),
+            q50_E = wtd.quantile(log(hwage), weights = pb040, probs = 0.50),
+            q75_E = wtd.quantile(log(hwage), weights = pb040, probs = 0.75)) %>%
+  left_join(descript, by='pb010')
+
+descript = hundat %>% 
+  filter(region2 == 'West') %>% 
+  group_by(pb010) %>%
+  summarise(mean_W = wtd.mean(log(hwage), weights = pb040),
+            q25_W = wtd.quantile(log(hwage), weights = pb040, probs = 0.25),
+            q50_W = wtd.quantile(log(hwage), weights = pb040, probs = 0.50),
+            q75_W = wtd.quantile(log(hwage), weights = pb040, probs = 0.75)) %>%
+  left_join(descript, by='pb010')
+
+descript = descript %>% mutate(dmean = mean_W - mean_E,
+                               dq25 = q25_W - q25_E,
+                               dq50 = q50_W - q50_E,
+                               dq75 = q75_W - q75_E)
+
+
+#descript = melt(descript, id = 'pb010')
+
+
+#ggplot(data = descript %>% filter(variable %in% c('dmean', 'dq25', 'dq50', 'dq75')), 
+#aes(x = pb010, y = value, colour = variable)) + 
+#geom_line()

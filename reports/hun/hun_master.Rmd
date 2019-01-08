@@ -1,39 +1,115 @@
 ---
-title: "Einkommensverteilung in Ungarn"
-subtitle: "2063 - Ökonomie der Verteilung"
-author: "Razik Azad & Laszlo Zoltan Zöldi"
-abstract: "Hier kommt noch unser Abstract, muss am Ende geschrieben werden."
-keywords: "a, b, c"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+title: 'Einkommensverteilung in Ungarn und die Ost-West-Lohnlücke'
+author: 'Razik Azad & Laszlo Zoeldi'
+abstract: 'Hier kommt noch unser Abstract, muss am Ende geschrieben werden.'
+date: 'Januar 2019'
 output: 
   pdf_document:
-    toc: true
-    includes: 
+    includes:
       in_header: hun_header.tex
+geometry: "left=3cm,right=3cm,top=2.5cm,bottom=2.5cm"
+fontsize: "12pt"
 bibliography: hun_references.bib
+params:
+  param_password: 'Enter password here...'
 ---
 
-\newpage
-
-```{r}
+```{r, include=FALSE}
+library(plyr)
+library(doBy)
+library(iterators)
+library(boot)
+library(sfsmisc)
+library(knitr)
+library(dplyr)
+library(tidyr)
+library(Hmisc)
+library(ggplot2)
+library(data.table)
+library(stargazer)
+library(grid)
+library(gridExtra)
+library(dummies)
+library(matrixStats)
+library(kableExtra)
+password = params$param_password
 ```
 
 
-\newpage
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+options(digits = 2)
+```
 
-# Einführung
+```{r, include=FALSE}
+#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_p.RData')
+#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_r.RData')
+#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_d.RData')
+#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_h.RData')
+source('reports/hun/hun_prepdata.R')
+source('reports/hun/hun_cleandata.R')
+source('reports/hun/hun_indicator.R')
+source('reports/hun/hun_decomposition.R')
+source('reports/hun/hun_figures.R')
+source('reports/hun/hun_table.R')
+```
 
-# Methodologie
+# Einleitung
 
-## Daten
+# Einkommensungleichheit in Ungarn
 
-## Indikatoren
+# Daten
+```{r, echo=FALSE, results='asis'}
+tab1
+```
+
+```{r, echo=FALSE, results='asis'}
+tab2
+```
+
+```{r, echo=FALSE, results='asis'}
+tab3
+```
+
+```{r, echo=FALSE, results='asis'}
+tab4
+```
+
+```{r, echo=FALSE, results='asis'}
+tab5
+```
+
+# Empirische Strategie
 
 # Ergebnisse
+```{r, echo=FALSE, warning=FALSE, fig.align='center', fig.cap='Dekomposition - Einfaches Model'}
+abb3
+```
 
-# Zusammenfassung
+```{r, echo=FALSE, warning=FALSE, fig.align='center', fig.cap='Dekomposition - Erweitertes Model'}
+abb4
+```
+
+# Konklusion
+
+# Appendix
+
+\newpage
+
+```{r, echo=FALSE, warning=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=2.9, fig.show='hold', fig.align='center', fig.cap='Ungleichheitsindikatoren nach Eurostat Definition (P1)'}
+abb1_1
+abb1_2
+abb1_3
+abb1_4
+abb1_5
+```
 
 
-# Literatur
-
-<!-- Leer lassen -->
+```{r, echo=FALSE, warning=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=2.9, fig.show='hold', fig.align='center', fig.cap='Ungleichheitsindikatoren nach wid.world Definition (P2)'}
+abb2_1
+abb2_2
+abb2_3
+abb2_4
+abb2_5
+```

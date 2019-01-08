@@ -4,6 +4,10 @@
 # factor variables 
 # Output: see end of script
 
+#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_p.RData')
+#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_r.RData')
+#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_d.RData')
+#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_h.RData')
 
 ### calcualte na-fractions
 p_isna = hun_p %>% 
@@ -204,6 +208,8 @@ hundat$region2 = NA
 hundat$region2[hundat$region %in% c('Middle', 'West')] <- 'West'
 hundat$region2[hundat$region == 'East'] <- 'East'
 
+table(hundat$pb010, hundat$region2)
+
 # Urbanisation
 hundat = hun_d %>%
   select(idh, db100) %>%
@@ -308,9 +314,7 @@ hundat$hwage[is.infinite(hundat$hwage)] <- 0
 
 # Filter and select final sample
 hundat = hundat %>%
-  select(idp, idh, pb010, female, union, region, urban, exper, educ, isco, 
-         sector, firmsize, contract, hwage, pb040) %>%
+  select(idp, idh, pb010, female, union, region, region2, urban, exper, educ, 
+         isco, sector, firmsize, contract, hwage, pb040) %>%
   filter(hwage > 0) %>%
   na.omit()
-
-table(hundat$pb010, hundat$region2)

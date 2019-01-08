@@ -4,8 +4,19 @@
 # Output: dataframes 'hun_{p,h,d,r}'
 
 
-### read script for connection: password needed
-source('R/_connection.R')
+### connection to database
+library(dplyr)
+
+if(!exists("pg")) {
+  
+  if(!exists("password")) {password <- params$param_password}
+  pg <- src_postgres(dbname = "datacube", host = "ineq.wu.ac.at",
+                     user = "lvineq", 
+                     password = password, 
+                     options = "-c search_path=silc")
+} else {
+  message("Connection pg already exists.")
+}
 
 ### the whole script is a loop 
 for (year in c('04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14',
