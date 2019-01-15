@@ -22,7 +22,8 @@ abb1_1 = ggplot(subset(indicators_p1_2, stat == 'Mean'),
   theme(axis.text.x = element_text(angle = 90),
         axis.title.x = element_blank(),
         legend.position = 'top',
-        legend.title = element_blank()) + 
+        legend.title = element_blank()) +
+  scale_y_continuous(limits = c(2000, 7000)) +
   ggsave('reports/hun/hun_img/abb1_1.png')
 
 # Median
@@ -38,7 +39,8 @@ abb1_2 = ggplot(subset(indicators_p1_2, stat == 'Q50'),
   theme(axis.text.x = element_text(angle = 90),
         axis.title.x = element_blank(),
         legend.position = 'top',
-        legend.title = element_blank()) + 
+        legend.title = element_blank()) +
+  scale_y_continuous(limits = c(2000, 7000)) +
   ggsave('reports/hun/hun_img/abb1_2.png')
 
 # Gini
@@ -54,7 +56,8 @@ abb1_3 = ggplot(subset(indicators_p1_2, stat == 'Gini'),
   theme(axis.text.x = element_text(angle = 90),
         axis.title.x = element_blank(),
         legend.position = 'top',
-        legend.title = element_blank()) + 
+        legend.title = element_blank()) +
+  scale_y_continuous(limits = c(0.2, 0.6)) +
   ggsave('reports/hun/hun_img/abb1_3.png')
 
 # P80/P20
@@ -70,7 +73,8 @@ abb1_4 = ggplot(subset(indicators_p1_2, stat == 'P80/P20'),
   theme(axis.text.x = element_text(angle = 90),
         axis.title.x = element_blank(),
         legend.position = 'top',
-        legend.title = element_blank()) + 
+        legend.title = element_blank()) +
+  scale_y_continuous(limits = c(0, 12)) +
   ggsave('reports/hun/hun_img/abb1_4.png')
 
 # Top10
@@ -87,6 +91,7 @@ abb1_5 = ggplot(subset(indicators_p1_2, stat == 'Top10'),
         axis.title.x = element_blank(),
         legend.position = 'top',
         legend.title = element_blank()) + 
+  scale_y_continuous(limits = c(0.2, 0.4)) +
   ggsave('reports/hun/hun_img/abb1_5.png')
 
 ################################################################################
@@ -115,6 +120,7 @@ abb2_1 = ggplot(subset(indicators_p2_2, stat == 'Mean'),
         axis.title.x = element_blank(),
         legend.position = 'top',
         legend.title = element_blank()) + 
+  scale_y_continuous(limits = c(0, 6000), breaks = seq(0,6000, 1000)) +
   ggsave('reports/hun/hun_img/abb2_1.png')
 
 # Median
@@ -131,6 +137,7 @@ abb2_2 = ggplot(subset(indicators_p2_2, stat == 'Q50'),
         axis.title.x = element_blank(),
         legend.position = 'top',
         legend.title = element_blank()) + 
+  scale_y_continuous(limits = c(0, 6000), breaks = seq(0,6000, 1000)) +
   ggsave('reports/hun/hun_img/abb2_2.png')
 
 # Gini
@@ -147,6 +154,7 @@ abb2_3 = ggplot(subset(indicators_p2_2, stat == 'Gini'),
         axis.title.x = element_blank(),
         legend.position = 'top',
         legend.title = element_blank()) + 
+  scale_y_continuous(limits = c(0.3, 0.7)) +
   ggsave('reports/hun/hun_img/abb2_3.png')
 
 # P80/P20
@@ -163,6 +171,7 @@ abb2_4 = ggplot(subset(indicators_p2_2, stat == 'P80/P20'),
         axis.title.x = element_blank(),
         legend.position = 'top',
         legend.title = element_blank()) + 
+  scale_y_continuous(limits = c(0, 210)) +
   ggsave('reports/hun/hun_img/abb2_4.png')
 
 # Top10
@@ -178,7 +187,8 @@ abb2_5 = ggplot(subset(indicators_p2_2, stat == 'Top10'),
   theme(axis.text.x = element_text(angle = 90),
         axis.title.x = element_blank(),
         legend.position = 'top',
-        legend.title = element_blank()) + 
+        legend.title = element_blank()) +
+  scale_y_continuous(limits = c(0.2, 0.5)) +
   ggsave('reports/hun/hun_img/abb2_5.png')
 
 ################################################################################
@@ -189,11 +199,11 @@ abb4 = ggplot(data = results,aes(year-1)) +
                   ymax = upper,
                   fill = stat), 
               alpha = 0.3) +
-  scale_fill_manual(values = c('black', 'red', 'green')) +
+  scale_fill_manual(values = c('black', 'green', 'red')) +
   geom_line(aes(y=value,
                 colour = stat),
             size = 2) +
-  scale_color_manual(values = c('black', 'red', 'green')) +
+  scale_color_manual(values = c('black', 'green', 'red')) +
   theme_minimal() + 
   scale_x_continuous(breaks=seq(2005,2017,1)) +
   theme(axis.text.x = element_text(angle = 90),
@@ -208,11 +218,11 @@ abb3 = ggplot(data = results2,aes(year-1)) +
                   ymax = upper,
                   fill = stat), 
               alpha = 0.3) +
-  scale_fill_manual(values = c('black', 'red', 'green')) +
+  scale_fill_manual(values = c('black', 'green', 'red')) +
   geom_line(aes(y=value,
                 colour = stat),
             size = 2) +
-  scale_color_manual(values = c('black', 'red', 'green')) +
+  scale_color_manual(values = c('black', 'green', 'red')) +
   theme_minimal() + 
   scale_x_continuous(breaks=seq(2005,2017,1)) +
   theme(axis.text.x = element_text(angle = 90),

@@ -79,7 +79,7 @@ for (y in c(2006:2017)) {
   bsci_p = boot.ci(bs, type = 'norm', index = 3)
   
   temp = data.frame(year = y,
-                    stat = c('D', 'X', 'P'),
+                    stat = c('Difference (D)', 'Endowment (X)', 'Price (P)'),
                     value = c(bsci_diff$t0, 
                              bsci_x$t0, 
                              bsci_p$t0),
@@ -110,7 +110,7 @@ for (y in c(2006:2017)) {
   bsci_p = boot.ci(bs, type = 'norm', index = 3)
   
   temp = data.frame(year = y,
-                    stat = c('D', 'X', 'P'),
+                    stat = c('Difference (D)', 'Endowment (X)', 'Price (P)'),
                     value = c(bsci_diff$t0, 
                               bsci_x$t0, 
                               bsci_p$t0),

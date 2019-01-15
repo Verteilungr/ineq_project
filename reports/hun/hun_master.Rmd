@@ -1,6 +1,6 @@
 ---
 title: 'Einkommensverteilung in Ungarn und die Ost-West-Lohnlücke'
-author: 'Razik Azad & Laszlo Zoeldi'
+author: 'Razik Azad & Laszlo Zoltan Zöldi'
 abstract: 'Hier kommt noch unser Abstract, muss am Ende geschrieben werden.'
 date: 'Januar 2019'
 output: 
@@ -8,6 +8,9 @@ output:
     includes:
       in_header: hun_header.tex
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=2.5cm"
+header-includes:
+  - \setlength{\parindent}{0.5cm}
+  - \setlength{\parskip}{0cm}
 fontsize: "12pt"
 bibliography: hun_references.bib
 params:
@@ -43,11 +46,11 @@ options(digits = 2)
 ```
 
 ```{r, include=FALSE}
-#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_p.RData')
-#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_r.RData')
-#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_d.RData')
-#load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_h.RData')
-source('reports/hun/hun_prepdata.R')
+load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_p.RData')
+load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_r.RData')
+load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_d.RData')
+load('C:/Users/zoeldi/Desktop/Data/SILC/todelete/hun_h.RData')
+#source('reports/hun/hun_prepdata.R')
 source('reports/hun/hun_cleandata.R')
 source('reports/hun/hun_indicator.R')
 source('reports/hun/hun_decomposition.R')
@@ -57,12 +60,103 @@ source('reports/hun/hun_table.R')
 
 # Einleitung
 
-# Einkommensungleichheit in Ungarn
+# Empirische Strategie
+
+Die empirische Strategie unserer Arbeit umfasst einen deskriptiven Teil, in dem wir konsistente Zeitreihen von Ungleichheitsindikatoren für Gesamtungarn berechnen, und einen ökonometrischen Teil, indem wir auf die Lohnunterschiede zwischen West- und Ostungarn fokussieren. Die deskriptive Analyse basiert auf fünf in der Verteilungsforschung oft verwendete Indikatoren: das Durchschnittseinkommen, das Medianeinkommen, den Gini-Koeffizienten, das Quantil-Share-Verhältnis und den Top-Zehn-Anteil. Die Arbeit bietet im Kapitel 3.1 einen detaillierten Überblick davon, welche Einkommenskonzepte für die Berechnung der Indikatoren verwendet werden bzw. Wie diese Konzepte operationalisiert werden. Der folgende Abschnitt befasst sich mit der Dekompositionsmethode, die wir für die Zerlegung der Ost-West-Lonhlücke anwenden.  
+
+## Oaxaca-Blinder Dekomposition
+
+Die Dekomposition nach Oaxaca und Blinder (im Weiteren als OB-Dekomposition) ermöglich die Zerlegung des mittleren Lohnunterschiedes zwischen zwei Gruppen auf einen durch Kontrollvariablen erklärten Ausstattungseffekt und einen Preiseffekt, der sich durch die unterschiedliche Entlohnung dieser Ausstattung erklären lässt. In mathematischer Schreibweise interessieren wir uns für
+$$\overline{\Delta} = E + P,$$
+wobei $\overline{\Delta}$ die durchschnittliche Lohndifferenz, $E$ den Ausstattungseffekt und $P$ den Preiseffekt darstellen. 
+
+Um die Komponente der Zerlegung kalkulieren zu können, werden zunächst Lohngleichungen nach Mincer geschätzt. Die allgemeine Form dieser Lohngleichungen lässt sich schreiben als: 
+$$ln(Y_{ik}) = \alpha_k + X\beta_k + \epsilon_{ik} \quad \text{für} \quad i=\{1,...n_k\};k=\{1,2\},$$
+wobei $\alpha$ für einen Konstanten, $X$ für die Kontrollvariablen, $\beta$ für die geschätzten Koeffizienten und $\epsilon$ für den Störterm stehen. Wie es aus Gleichung XX ersichtlich wird, wird die Lohngleichung die ausgewählten Gruppen $k$ getrennt geschätzt. Im Gegensatz zu einem einfachen Gruppendummy erlaubt die separate Schätzung die gruppenspezifische Variation nicht nur des Konstanten, sondern auch die der Koeffizienten. Somit lässt sich der durchschnittliche logarithmierte Lohn von Gruppe $k$ folgendermaßen definieren: 
+$$ln(\overline{Y}_k) = \overline{X}_k\beta_k $$
+wobei $\overline{X}_k$ den Vektor die durchschnittliche Ausstattung der jeweiligen Gruppe darstellt. Die funktionale Form der durchschnittlichen logarithmierten Lohnabstand kann man daher als 
+$$ ln(\overline{Y}_1) - ln(\overline{Y}_2) = \overline{X}_1\beta_1 - \overline{X}_2\beta_2, $$
+mit den geschätzten Entlohnungsparametern und den Vektor der durchschnittlichen Austattung der jeweiligen Gruppe ausdrücken.
+
+Die Zerlegung des Lohnabstandes erfolgt durch Umformung dieser funktionalen Schreibweise. Die Komponente der OB-Dekomposition lassen sich anhand zwei kontrafaktischer Ausdrücke berechnen, die sich auf die Höhe des mittleren Lohnabstandes aufsummieren:  
+$$ \underbrace{ln(\overline{Y}_1) - ln(\overline{Y}_2)}_{\text{Mean Differecnce (D)}} = \underbrace{(\overline{X}_1 - \overline{X}_2)\hat{\beta}_{R=1}}_{\text{Endowment (E)}} + \underbrace{\overline{X}_2(\hat{\beta}_1 - \hat{\beta}_2)}_{\text{Price (P)}}. $$
+Die Interpretation der linken Seite der Identität entspricht der beschriebenen mittleren Lohndifferenz. Die Interpretation von den Differenzkomponenten basiert hingegen auf den kontrafaktischen Werten.Der durch das Modell erklärte Teil der Differenz ergibt sich aus den Ausstattungsunterschieden zwischen Gruppe 1 und Gruppe 2 bewertet zu den Renumerationsparametern von der Referenzgruppe, in diesem Fall Gruppe 1. Der erklärte Teil gibt an, welche Differenz entstehen würde, wenn Gruppe 1 und Gruppe 2 für gegebene Ausstattung gleich entlohnt würden. Im Gegensatz dazu ergibt sich der Preiseffekt aus der Differenz zwischen dem kontrafaktischen Wert, der entstehen würde, wenn Gruppe 2 für gegebene Ausstattung entsprechend der Gruppe 1 entlohnt würde, und dem Wert, der wegen der unterschiedlichen Entlohnung tatsächlich zustande kommt.
+
+Die Wahl des Referenzkoeffizienten, die in der fiktiven Welt ohne Renumerationsunterschiede zustande käme, unterliegt keinem systematischen Prozess. Eine identische Interpretation der Komponenten würde erlauben, wenn wir für die Berechnung des Ausstattungseffektes die Koeffizienten von Gruppe 2 und für die Berechnung des Preiseffektes die durchschnittliche Ausstattung von Gruppe 1 wählen würden. Obwohl die Literatur daher auch alternative Gewichtungsschemen für die Koeffizienten vorschlägt, werden hier der Übersichtlichkeit halber nur die beschriebene Gewichtungsvariante benutzt. Konkretisiert bedeutet es, dass wir im Rahmen der Arbeit die Regressionskoeffizienten der westlichen Region als Referenz definieren. Die Dekomposition nimmt daher die Form 
+$$\underbrace{ln(\overline{Y}_W) - ln(\overline{Y}_E)}_{\text{Mean Differecnce (D)}} = \underbrace{(\overline{X}_W - \overline{X}_E)\hat{\beta}_{R=W}}_{\text{Endowment (E)}} + \underbrace{\overline{X}_E(\hat{\beta}_W - \hat{\beta}_E)}_{\text{Price (P)}}$$
+an, wobei unter $W$ die westliche und $E$ die östliche Region verstanden wird. Die Diskussion der Komponenten im Rahmen der Arbeit bezieht sich stets auf diese Variante der Zerlegung.
+
+## Inferenz 
+
+Um unsere geschätzten Parameter auf Unsicherheit zu testen, folgen wir der von Efron vorgeschlagenen Methodik zur Schätzung von Standardfehlern mit bootstraped Stichproben. Die Methodik erlaubt die wiederholte Berechnung von einer ausgewählten Statistik auf der Grundlage einer Stichprobe. Das so entstandene Sample der Statistik von Interesse stellt die geschätzte empirische Verteilungsfunktion dieser Statistik dar. Anhand dieser Verteilungsfunktion wird die Streuung der Statistik berechnet, die gleichzeitig als Standardfehler interpretiert werden kann. 
+
+Das Verfahren lässt sich im Kontext der OB-Dekomposition in vier einfachen Schritten zusammenfassen:
+
+1. Wähle eine beliebig große Anzahl von Wiederholungen, $s$. 
+2. Poole die Stichproben von Gruppe $W$ und Gruppe $E$ mit $n = n_W+n_E$ Beobachtungen und ziehe ein Randomsample mit $n$ Beobachtungen aus dem pooled Sample mit Zurücklegen. 
+3. Berechne die Dekompositionsparameter $D$, $E$ und $P$. 
+4. Wiederhole den Prozess $s$-mal. 
+
+Das Bootstrapverfahren liefert die Samples von $S(D)$, $S(E)$, $S(P)$ mit jeweils $s$ Beobachtungen. Mithilfe dieser Beobachtungen kalkulieren wir den Standardfehler der Komponenten.  
+
+Generell lässt sich nicht feststellen, wie hoch die Anzahl von Wiederholungen gesetzt werden muss. Nach mehreren Versuchen haben wir beobachtet, dass sich die Standardfehler ab 1000 Wiederholungen nicht mehr ändern deswegen haben wir uns für diese Anzahl entschieden. Aus Darstellungsgründen werden anschließend nicht die Standardfehler selbst, sondern die Konfidenzintervalle der Komponenten zum Niveau $95\%$ präsentiert. 
 
 # Daten
+
+Um ein repräsentatives Bild über die Verteilung der personellen Einkommen in Ungarn zu erhalten, werden die zu diesem Land gehörenden Querschnittsdaten der EU-SILC Umfrage zwischen 2004 und 2017 ausgewertet. Der nicht-modifizierte Datensatz enthält annähernd 250 Tausend Personen und 120 Tausend Haushalte. Dies entspricht einer Stichprobengröße von durchschnittlich 20.000 Personen und 9.000 Haushalten pro Jahr. Von diesem Datensatz ausgehend werden zwei angepassten Stichproben erzeugt. In der ersten Stichprobe werden die relevanten aggregierten Einkommensvariablen entsprechend den Definitionen der Grundgesamtheit der Eurostat und der World Inequality Database (WID) erzeugt. Die zweite Stichprobe, die wir für die Analyse der Lohndifferenzen zwischen Ost- und Westungarn benutzen, beschränkt sich auf die Grundgesamtheit von unselbständig Beschäftigten. Der folgende Abschnitt beschreibt diese zwei modifizierten Datengrundlagen. 
+
+## Einkommensungleichheit nach Eurostat und WID 
+
+Je nach Definition der Grundgesamtheit wird zwischen drei Einkommenskonzepten unterschieden. Faktoreinkommen vor Steuern (Factor) umfassen jährliche Bruttoeinnahmen aus selbständiger, unselbständiger Arbeit sowie Vermögenseinkommen. Somit geben die nach diesem Konzept berechneten Ungleichheitsindikatoren über die arbeitsmarktbezogene Prouktion Auskunft. Das Konzept der nationalen Einkommen (National) ergänzt die Faktoreinkommen mit den jährlichen Bruttoeinnahmen aus arbeitsbezogene Transferleistungen, wie Arbeitslosenversicherungen und Pensionen. Die Indikatoren, die auf dieses Konzept basieren, zeigen, inwieweit die personelle Einkommensverteilung durch das Transfersystem des Staates verändert. Schließlich wird das verfügbare Einkommen nach Steuern (Disposable) kalkuliert. Das Konzept des verfügbaren Einkommens unterscheidet sich von dem des nationalen Einkommens, indem das letztere um weitere jährliche monetäre Transfers des Staates, wie soziale Transferleistungen, ergänzt wird. Es zeigt daher, wie die Gesamteinkommen nach Steuerzahlungen im Land verteilt werden. 
+
+Die drei Einkommenskonzepte werden je nach Definition der Grundgesamtheit anders kalkuliert. Laut Eurostat-Definition werden im ersten Schritt alle Einkommensarten (Factor, National und Disposable) auf Haushaltsebene aggregiert. Im zweiten Schritt werden diese aggregierten Einkommen durch einen Äquivalenzfaktor dividiert, der die erforderliche prozentuale Erhöhung der Haushaltsressourcen bei Hinzukommen einer weiteren Person, unter Bedingung eines gleichbleibenden Wohlfahrtsniveaus messen. Schließlich werden die äquivalisierten Einkommen jedem Haushaltsmitglied zugeordnet. Da einige von den ausgewählten Ungleichheitsindikatoren sensitiv auf Minuswerte sind, entschieden wir uns anschließend, Personen mit Negativeinkommen in mindestens einer der berechneten Einkommensarten von unseren Berechnungen auszuschließen. Anhand dieser personellen äquivalisierten Einkommen werden die ausgewählten Ungleichheitsindikatoren berechnet. 
+
+Im Gegensatz dazu, zieht die Grundgesamtheitsdefinition nach WID nur Personen ab dem 20. Lebensalter in Betracht. Einkommensarten, die im EU-SILC Datensatz auf Haushaltseibene verfügbar sind, werden zunächst den Haushaltsmitgliedern über 20 zu gleichen Teilen zugewiesen und Personen jünger als 20 aus dem Subsample entfernt. Danach werden die drei Einkommensarten (Factor, National und Disposable) auf Individualebene erzeugt und die Indikatoren kalkuliert. Ähnlich wie vorher, werden Personen, die unter den aggregierten Einkommensvariablen über Minuswerte verfügen, ausgeschlossen.  
+
+## Löhne im Osten und Westen 
+
+Um die Lohnunterschiede zwischen Ost- und Westungarn näher betrachten zu können, nehmen wir weitere Schritte in der Datenmodifikation vor. Zunächst werden die Personen im Datensatz anhand ihres Wohnortes getrennt. Die Variable, die für diesen Zweck benutzt wird, ermöglicht die Trennung von drei Regionen in Ungarn nach der NUTS-Klassifikation (Nomenclature of territorial units for statistics): Westungarn (Transdanubien), Mittelungarn (Budapest und die Vorstadt) bzw. Ostungarn (alle östlichen Regionen). Um den Lohnvergleich auf zwei Gruppen einschränken zu können, definieren wird Westungarn und Mittelungarn gemeinsam als Westen und Ostungarn als Osten.  
+
+Die abhängige Variable der durchgeführten Regressionen ist der logarithmierte Lohn pro Stunde, $ln(hwage)$. Er berechnet sich aus dem Bruttojahreseinkommen aus unselbständiger Beschäftigung dividiert durch die Anzahl der in dem Jahr geleisteten Arbeitsstunden. Da der letztere Term im Datensatz nicht unmittelbar dokumentiert wird, wird er aus dem Produkt von viermal den Stunden, die die Befragten insgesamt in ihrem Haupt- und Nebenberuf wöchentlich ableisten, und der Anzahl der Monate, in denen sie in diesen Stellen beschäftigt sind, berechnet. Anschließend wird die logarithmierte Form von $hwage$ kalkuliert. Dies ermöglicht im Anschluss die Interpretation der Regressionsergebnisse in log-Prozentpunkten, mit denen die Dekomposition durchgeführt wird. Die einzelnen Ergebnisse bezüglich der Lohnunterschiede zwischen Ost- und Westungarn können daher ebenfalls mit prozentualen Werten ausgedrückt werden. Auf der anderen Seite erlauben prozentuale Werte, schließende Aussagen unabhängig von zeitlichen Lohnniveauunterschieden zu treffen. Das Ausmaß der Inflation zwischen 2005 und 2013 verzerrt die vergleichenden Ergebnisse nicht. Diese beziehen sich nämlich auf relative Werte: die Löhne von westungarischen Beschäftigten im Verhältnis zu den von ostungarischen Beschäftigten. Dieses Verhältnis bleibt ceteris paribus mit steigendem Preisniveau unverändert. 
+
+Die unabhängigen Kontrollvariablen der Regression beziehen sich zum Teil auf die Humankapitalausstattung. Der Lohn der ArbeitnehmerInnen wird insbesondere von ihrer Berufserfahrung bestimmt. Da diese Informationen im Datensatz aus technischen Gründen fehlen, wird die Beschäftigungserfahrung als kontinuierliche Proxyvariable $exper$ erfasst, berechnet durch die Differenz zwischen dem Umfragejahr und dem Jahr, in dem der höchste Bildungsabschluss erfolgte. Die quadrierten Werte der Beschäftigungserfahrung $expersq$ wird ebenfalls in die Regression aufgenommen, um der Abschreibung auf Humankapital Rechnung zu tragen. Der höchste Bildungsabschluss, als zweiter Bestimmungsfaktor des Humankapitals, wird anhand der ISCED-Ebenen in drei integrierten Kategorien zusammengefasst. Die Variable $educ$ nimmt den Wert $Low$ an, wenn die Befragten einen unteren sekundären oder niedrigeren Bildungsabschluss aufweisen: Die Kategorie entspricht den ISCED-Ebenen 0 bis 2. Ein Bildungsabschluss auf höherer sekundärer oder post-sekundärer Stufe wird reflektierend auf die dritte und vierte Ebene mit $Middle$ kodiert. Mit $High$ werden schließlich hochschulische (tertiäre) Bildungsabschlüsse entsprechend der fünften Ebene gekennzeichnet. 
+
+Weitere Kontrollvariablen, die zwar nicht direkt die Produktivität der ArbeitnehmerInnen widerspiegeln, aber einen großen Einfluss auf die Entlohnung haben, betreffen zunächst den Sektor, in dem die ArbeitnehmerInnen angestellt sind. Der Sektor wird anhand der Statistischen Systematik der Wirtschaftszweige in der Europäischen Gemeinschaft (kurz NACE) innerhalb der Variable $sector$ in drei Kategorien bestimmt. Dem Sektor $SERV$ werden alle Personen zugewiesen, die in ihrem Beruf dienstleistende Funktionen erfüllen. Zu dieser Kategorie gehören unter anderem Handel, Tourismus, Verkehrswirtschaft, Telekommunikation und weitere Geschäftstätigkeiten. Angestellte öffentlicher Einrichtungen, wie staatliche und nicht-gewinnorientierte Organisationen, werden der Kategorie $PUB$ zugeordnet. Angestellte von Bildungseinrichtungen und dem Gesundheitssystem sind ebenfalls dieser Kategorie zuzuordnen, weil diese zwei Zweige in Ungarn staatlicher Finanzierung unterliegen. Die letzte Kategorie $AIC$ umfasst Arbeitnehmer der produktiven Zweige: der Landwirtschaft, der Industrie und der Bauwirtschaft. 
+
+Ebenso mit Kontrollvariablen werden die engeren betrieblichen Eigenschaften der Anstellung der ArbeitnehmerInnen charakterisiert. Die Position in der betrieblichen Hierarchie bzw. die Qualifikation, mit der diese Position besetzt werden kann, wird anhand der Systematik der Internationalen Standardklassifikation der Berufe (kurz ISCO) bestimmt. ISCO-Kodes von 1 bis 3 umfassen professionelle Tätigkeiten, die meistens von Managern und Experten mit hochschulischem Abschluss ausgeführt werden. Führen die ArbeitnehmerInnen eine solche Tätigkeit in einer solchen Position aus, wurde das mit der Dummy-Variable $Skilled$ in der Regression bezeichnet. Als Referenzkategorie $Unskilled$ wird die Tätigkeitsgruppe 4 bis 9 gewählt: ArbeitnehmerInnen sowohl mit fachspezifischen Tätigkeiten ohne Führungsposition als auch mit Aushilfetätigkeiten. Eine weitere Dummy-Variable gibt an, ob der Vertag der ArbeitnehmerInnen befristet ist. Ist die Dauer des Vertrags unbefristet, erscheint das in der Regression mit $Permanent$. Als Referenzkategorie $Temporay$ werden auf Dauer befristete Verträge gewählt. Erfolgt die Beschäftigung in einer Firma, in der mindestens 50 Personen angestellt sind, wurde dies mit der Dummy-Variable $Big$ in der Regression gekennzeichnet. 
+
+Schließlich wird der sozioökonomische Hintergrund der Befragten mit drei weiteren Kontrollvariablen abgegrenzt. Die Dummy-Variable $Male$ ist gleich 1, wenn die Person männlich ist. Ist die Person weiblich gilt die Variable $Female$. Lebt sie in einer Beziehung mit einer anderen Person im selben Haushalt, jedoch unabhängig vom legalen Status der Beziehung, wird das mit der Variablen $Couple$ gedeckt. Im Gegensatz dazu, wenn keine Haushaltsunion vorhanden ist, wird die Variable $Single$ verwendet. Abschließend erscheint die Variable $Densely$ in der Regression, wenn die Person in einer dicht bewohnten Region mit mindestens fünfzigtausend Einwohnern lebt. 
+
 ```{r, echo=FALSE, results='asis'}
 tab1
 ```
+
+Anhand der beschriebenen Variabenspezifikation werden zwei Regressionen durchgeführt. In der ersten Regression kontrollieren wir nur nach produktivtätsrelevanten und sozioökonomischen Eigenschaften der ArbeitnehmerInnen (im Weiteren als einfaches Model bezeichnet):
+$$\begin{split} ln(hwage)_{kt} = exper + exper^2 + educ\_Middle + educ\_High + \\ + female + union\_Couple + urban\_Densely. \end{split}$$
+In der zweiten Regeression ergänzen wir die Kontrollvariablen mit Eigenschaften des Berufsstelle der ArbeitnehmerInnen (Erweitertes Model):
+$$\begin{split} ln(hwage)_{kt} = exper + exper^2 + educ\_Middle + educ\_High + \\ + female + union\_Couple + urban\_Densely + \\ +sector\_PUB + sector\_SERV + firmsize\_Big + \\ + isco\_Skilled + contact\_Permanent. \end{split}$$
+Beide Regressionen werden entsprechend der ökonometrischen Spezifikation im Kapitel 3 für die beiden Regionen $k=\{East, West\}$ geschätzt und der Prozess wird zu jedem Zeitpunkt $t=\{2005, ..., 2016\}$ repliziert. Jede Schätzung wurde darüber hinaus mit den angegebenen persönlichen Stichprobengewichten korrigiert, um den Verzerrungen im Stichprobendesign gegenüber der Population entgegenzuwirken.
+
+# Ergebnisse
+\begin{figure}
+\caption{Dekomposition - Einfaches Model}
+```{r, echo=FALSE, warning=FALSE, fig.align='center'}
+abb3
+```
+\footnotesize{\textit{Quelle:} EU-SILC 2006-20017, eigene Berechnungen}
+\end{figure}
+
+\begin{figure}
+\caption{Dekomposition - Erweitertes Model}
+```{r, echo=FALSE, warning=FALSE, fig.align='center'}
+abb4
+```
+\footnotesize{\textit{Quelle:} EU-SILC 2006-20017, eigene Berechnungen}
+\end{figure}
+
+# Konklusion
+
+# Appendix
 
 ```{r, echo=FALSE, results='asis'}
 tab2
@@ -80,24 +174,7 @@ tab4
 tab5
 ```
 
-# Empirische Strategie
-
-# Ergebnisse
-```{r, echo=FALSE, warning=FALSE, fig.align='center', fig.cap='Dekomposition - Einfaches Model'}
-abb3
-```
-
-```{r, echo=FALSE, warning=FALSE, fig.align='center', fig.cap='Dekomposition - Erweitertes Model'}
-abb4
-```
-
-# Konklusion
-
-# Appendix
-
-\newpage
-
-```{r, echo=FALSE, warning=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=2.9, fig.show='hold', fig.align='center', fig.cap='Ungleichheitsindikatoren nach Eurostat Definition (P1)'}
+```{r, echo=FALSE, warning=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=2.9, fig.show='hold', fig.align='center', fig.cap='Ungleichheitsindikatoren nach Eurostat'}
 abb1_1
 abb1_2
 abb1_3
@@ -106,7 +183,7 @@ abb1_5
 ```
 
 
-```{r, echo=FALSE, warning=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=2.9, fig.show='hold', fig.align='center', fig.cap='Ungleichheitsindikatoren nach wid.world Definition (P2)'}
+```{r, echo=FALSE, warning=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=2.9, fig.show='hold', fig.align='center', fig.cap='Ungleichheitsindikatoren nach WID World'}
 abb2_1
 abb2_2
 abb2_3

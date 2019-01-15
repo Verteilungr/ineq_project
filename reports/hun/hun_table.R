@@ -65,8 +65,10 @@ tab1 = hundat %>%
 tab1 = kable(tab1, 
              'latex',
              caption = "Pooled Sample nach Datenfilterung und Stundenlohnunterschiede zwischen Westen und Osten", 
-             booktabs = T) %>%
-  kable_styling() %>%
+             booktabs = T,
+             escape = F,
+             col.names = c("Variable", linebreak(c("Mean hwage\nEast", "Mean hwage\nWest"), align = "r"), "N", "N(East)/N")) %>%
+  kable_styling(font_size = 10, full_width = T) %>%
   group_rows("Sex", 1, 2) %>%
   group_rows("Education", 3, 5) %>%
   group_rows("Union", 6, 7) %>%
@@ -75,8 +77,9 @@ tab1 = kable(tab1,
   group_rows("Sector", 12, 14) %>%
   group_rows("Firmsize", 15, 16) %>%
   group_rows("Contract", 17, 18) %>%
-  footnote(general = 'Durchscnitt bezieht sich auf den Studenlohn in der jeweiligen Region. Source: EU-SILC 2005-2017, eigene Berechnungen.',
-           threeparttable = T)
+  footnote(general = 'EU-SILC 2005-2017, eigene Berechnungen.',
+           footnote_as_chunk = T,
+           general_title = "Quelle:")
 
 ### Table 2 
 
@@ -99,7 +102,7 @@ tab2 = tab2 %>%
   select(-stat) %>%
   kable('latex',
         booktabs = T,
-        caption = "Ungleichheitsindikatoren nach Eurostat (P1)",
+        caption = "Ungleichheitsindikatoren nach Eurostat",
         row.names = FALSE,
         col.names = c("", c(2004:2016))) %>%
   kable_styling(latex_options = 'scale_down') %>%
@@ -108,6 +111,9 @@ tab2 = tab2 %>%
   group_rows("Gini", 7, 9) %>%
   group_rows("P80/P20", 10, 12) %>%
   group_rows("Top10", 13, 15) %>%
+  footnote(general = 'EU-SILC 2005-2017, eigene Berechnungen.',
+           footnote_as_chunk = T,
+           general_title = "Quelle:") %>%
   landscape()
 
 ### Table 3 
@@ -131,7 +137,7 @@ tab3 = tab3 %>%
   select(-stat) %>%
   kable('latex',
         booktabs = T,
-        caption = "Ungleichheitsindikatoren nach wid.world (P2)",
+        caption = "Ungleichheitsindikatoren nach WID World",
         row.names = FALSE,
         col.names = c("", c(2004:2016))) %>%
   kable_styling(latex_options = 'scale_down') %>%
@@ -140,6 +146,9 @@ tab3 = tab3 %>%
   group_rows("Gini", 7, 9) %>%
   group_rows("P80/P20", 10, 12) %>%
   group_rows("Top10", 13, 15) %>%
+  footnote(general = 'EU-SILC 2005-2017, eigene Berechnungen.',
+           footnote_as_chunk = T,
+           general_title = "Quelle:") %>%
   landscape()
 
 ### Table 4
@@ -164,6 +173,9 @@ tab4 = tab4 %>%
   group_rows('Diffrence (D)', 1, 2) %>%
   group_rows('Price (P)', 3, 4) %>%
   group_rows('Endowment (X)', 5, 6) %>%
+  footnote(general = 'EU-SILC 2005-2017, eigene Berechnungen.',
+           footnote_as_chunk = T,
+           general_title = "Quelle:") %>%
   landscape()
 
 ### Table 5
@@ -190,4 +202,7 @@ tab5 = tab5 %>%
   group_rows('Diffrence (D)', 1, 2) %>%
   group_rows('Price (P)', 3, 4) %>%
   group_rows('Endowment (X)', 5, 6) %>%
+  footnote(general = 'EU-SILC 2005-2017, eigene Berechnungen.',
+           footnote_as_chunk = T,
+           general_title = "Quelle:") %>%
   landscape()
