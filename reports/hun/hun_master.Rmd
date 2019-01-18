@@ -1,18 +1,18 @@
 ---
 title: 'Einkommensverteilung in Ungarn und die Ost-West-Lohnlücke'
 author: 'Razik Azad & Laszlo Zoltan Zöldi'
-abstract: 'Hier kommt noch unser Abstract, muss am Ende geschrieben werden.'
+abstract: 'Die Arbeit untersucht die Einkommensverteilung in Ungarn mit einem speziellen Fokus auf die Lohndifferenzen zwischen westlichen und östlichen Regionen des Landes. Nach der Diskussion von fünf allgemeinen Ungleichheitsindikatoren wird der durchschnittliche Stundenlohnabstand zwischen westungarischen und ostungarischen Beschäftigten mithilfe der Oaxaca-Blinder-Dekomposition zerlegt. Die Differenz erhöhte sich zwischen 2005 und 2016 um 7 Prozentpunkte auf 22 %, wobei die bessere Qualifikation westungarischer ArbeitnehmerInnen einen konstanten jedoch nur mäßigen Effekt hatte (etwa ein Viertel der Gesamtdifferenz). Die Treiber der steigenden Tendenz des Lohnabstandes sind hauptsächlich firmenspezifische Merkmalsunterschiede.'
 date: 'Januar 2019'
 output: 
   pdf_document:
     includes:
       in_header: hun_header.tex
+bibliography: hun_references.bib
 geometry: "left=3cm,right=3cm,top=2.5cm,bottom=2.5cm"
 header-includes:
   - \setlength{\parindent}{0.5cm}
   - \setlength{\parskip}{0cm}
 fontsize: "12pt"
-bibliography: hun_references.bib
 params:
   param_password: 'Enter password here...'
 ---
@@ -58,15 +58,25 @@ source('reports/hun/hun_figures.R')
 source('reports/hun/hun_table.R')
 ```
 
-# Einleitung
+# 1 Einleitung
 
-# Empirische Strategie
+Die Einkommen von Haushalten in Ungarn variiert stark in den einzelnen Regionen und sind an den ökonomischen Gegebenheiten der jeweiligen Region gekoppelt. Traditionell sind es die westlichen Regionen inklusive der Hauptstadt und die vorstädtische Region von Budapest, die zu den reichen Regionen von Ungarn gehören. Im Gegensatz dazu, bleiben einkommensmäßig die östlichen und nordöstlichen Regionen stark zurück. Laut Berechnungen des Statischen Amtes Ungarn [@ksh2016], belief sich das jährliche Pro-Kopf-Einkommen 2016 in diesen ärmeren Regionen um annähernd 25 % weniger als in Westungarn. Vergleichend mit den Ergebnissen des @ksh2014, lässt sich vermuten, dass die ärmeren Gebiete nicht aufholen: Die Lücke erhöhte sich im Laufe der 2 Jahre um 3 Prozentpunkte. Eine detailliertere Darstellung der Einkommensquellen in unterschiedlichen Regionen beleuchtet in Abbildung 1, dass das niedrigere Pro-Kopf-Arbeitseinkommen in Ostungarn die Wurzel dieser Lücke sein kann. Folglich stellt sich die Frage, warum die Arbeitseinkommen im östlichen Teil des Landes auf niedrigerem Niveau liegen.
+
+Im Kontext der Einkommenslücke werden zwei mögliche Erklärungen diskutiert. Auf der einen Seite wird argumentiert, dass die Anzahl von Arbeitsplätzte im Osten beschränkt ist, was in eine höhere Anzahl an Beschäftigungslose resultier, die wiederum die Verhandlungsmacht der Beschäftigten mildert [@stigliz1984]. Folglich fällt in diesen Regionen die Summe der Arbeitseinkommen wegen der Mangel an Beschäftigung und wegen der ungünstigen Lohnverhandlungsposition der Beschäftigten. Die zweite Erklärung geht weniger von Makrophänomenen als von mikroökonomischen Überlegungen aus und argumentiert, dass die Lohndifferenzen zwischen West- und Ostungarn für die Arbeitseinkommensunterschiede verantwortlich sind. Lohndifferenzen in der neoklassischen Theorie werden weithin durch Produktivitätsunterschiede (Wertschöpfung pro Stunde) erklärt. Produktivität ist wiederum durch das Humankapital der ArbeitnehmerInnen (Bildung, Berufserfahrung) und eingesetzte Firmenkapital (Technologie, natürliche Ressourcen) bestimmt [@mincer1974; @becker1993]. Lohndifferenzen zwischen Regionen entstehen deshalb, weil diese Merkmale auf regionaler Ebene unterschiedliche Strukturen wahrnehmen können [@balassa1964].
+\begin{figure}[t]
+  \caption{Brutto Pro-Kopf-Jahreseinkommen nach Einkommensquelle und Region, 2016}
+  \includegraphics[width=\textwidth]{hun_img/kap1_1.png}
+  \footnotesize{\textit{Quelle:} KSH (2016, 11)}
+\end{figure}
+In dieser Arbeit beschäftigen wir uns mit der mikroökonomischen Sichtweise und gehen der Frage nach, woher die Lohndifferenzen zwischen Westungarn und Ostungarn kommen. Anhand der Mikrodaten der European Statistics on Income and Living Conditions (kurz EU-SILC) berechnen wir Stundenlöhne als Proxy für Produktivität in westlichen und östlichen Regionen des Landes. Im ersten Schritt vergleichen wir diese Stundenlöhne im Rahmen einer Zeitreihenanalyse und diskutieren die regionalen Differenzen. Anschließend zerlegen wir die Differenz im Rahmen einer Regressionsanalyse auf eine durch das Regressionsmodel erklärte Komponente und eine Residualkomponente. Um der unterschiedlichen Bedeutung von Humankapitaleigenschaften und Firmencharakteristika der Arbeitnehmer Rechnung zu tragen, weiderholen wir den Prozess mit einem ergänzten Model, in dem wir nach zusätzlichen Variablen des Berufs der Arbeitnehmer kontrollieren. Unsere Ergebnisse zeigen, dass die durchschnittliche Lohndifferenz zwischen westungarischen und ostungarischen Beschäftigten seit 2005 um annähernd 7 Prozentpunkten auf 22 % gestiegen ist, und dass dabei die Differenzen in Humankapitalausstattung eine untergeordnete Rolle spielten. Vergleichend mit einer Reihe von Ungleichheitsindikatoren konkludieren wir, dass die Einkommensungleichheit in Ungarn zwischen 2004 und 2016 zwar nicht gestiegen ist, die Ost-West-Lohnlücke wurde signifikant breiter.
+
+# 2 Empirische Strategie
 
 Die empirische Strategie unserer Arbeit umfasst einen deskriptiven Teil, in dem wir konsistente Zeitreihen von Ungleichheitsindikatoren für Gesamtungarn berechnen, und einen ökonometrischen Teil, indem wir auf die Lohnunterschiede zwischen West- und Ostungarn fokussieren. Die deskriptive Analyse basiert auf fünf in der Verteilungsforschung oft verwendete Indikatoren: das Durchschnittseinkommen, das Medianeinkommen, den Gini-Koeffizienten, das Quantil-Share-Verhältnis und den Top-Zehn-Anteil. Die Arbeit bietet im Kapitel 3.1 einen detaillierten Überblick davon, welche Einkommenskonzepte für die Berechnung der Indikatoren verwendet werden bzw. Wie diese Konzepte operationalisiert werden. Der folgende Abschnitt befasst sich mit der Dekompositionsmethode, die wir für die Zerlegung der Ost-West-Lonhlücke anwenden.  
 
-## Oaxaca-Blinder Dekomposition
+## 2.1 Oaxaca-Blinder Dekomposition
 
-Die Dekomposition nach Oaxaca und Blinder (im Weiteren als OB-Dekomposition) ermöglich die Zerlegung des mittleren Lohnunterschiedes zwischen zwei Gruppen auf einen durch Kontrollvariablen erklärten Ausstattungseffekt und einen Preiseffekt, der sich durch die unterschiedliche Entlohnung dieser Ausstattung erklären lässt. In mathematischer Schreibweise interessieren wir uns für
+Die Dekomposition nach @oaxaca1973 und @blinder1973 ermöglich die Zerlegung des mittleren Lohnunterschiedes zwischen zwei Gruppen auf einen durch Kontrollvariablen erklärten Ausstattungseffekt und einen Preiseffekt, der sich durch die unterschiedliche Entlohnung dieser Ausstattung erklären lässt (im Weiteren als OB-Dekompistion). In mathematischer Schreibweise interessieren wir uns für
 $$\overline{\Delta} = E + P,$$
 wobei $\overline{\Delta}$ die durchschnittliche Lohndifferenz, $E$ den Ausstattungseffekt und $P$ den Preiseffekt darstellen. 
 
@@ -82,13 +92,13 @@ Die Zerlegung des Lohnabstandes erfolgt durch Umformung dieser funktionalen Schr
 $$ \underbrace{ln(\overline{Y}_1) - ln(\overline{Y}_2)}_{\text{Mean Differecnce (D)}} = \underbrace{(\overline{X}_1 - \overline{X}_2)\hat{\beta}_{R=1}}_{\text{Endowment (E)}} + \underbrace{\overline{X}_2(\hat{\beta}_1 - \hat{\beta}_2)}_{\text{Price (P)}}. $$
 Die Interpretation der linken Seite der Identität entspricht der beschriebenen mittleren Lohndifferenz. Die Interpretation von den Differenzkomponenten basiert hingegen auf den kontrafaktischen Werten.Der durch das Modell erklärte Teil der Differenz ergibt sich aus den Ausstattungsunterschieden zwischen Gruppe 1 und Gruppe 2 bewertet zu den Renumerationsparametern von der Referenzgruppe, in diesem Fall Gruppe 1. Der erklärte Teil gibt an, welche Differenz entstehen würde, wenn Gruppe 1 und Gruppe 2 für gegebene Ausstattung gleich entlohnt würden. Im Gegensatz dazu ergibt sich der Preiseffekt aus der Differenz zwischen dem kontrafaktischen Wert, der entstehen würde, wenn Gruppe 2 für gegebene Ausstattung entsprechend der Gruppe 1 entlohnt würde, und dem Wert, der wegen der unterschiedlichen Entlohnung tatsächlich zustande kommt.
 
-Die Wahl des Referenzkoeffizienten, die in der fiktiven Welt ohne Renumerationsunterschiede zustande käme, unterliegt keinem systematischen Prozess. Eine identische Interpretation der Komponenten würde erlauben, wenn wir für die Berechnung des Ausstattungseffektes die Koeffizienten von Gruppe 2 und für die Berechnung des Preiseffektes die durchschnittliche Ausstattung von Gruppe 1 wählen würden. Obwohl die Literatur daher auch alternative Gewichtungsschemen für die Koeffizienten vorschlägt, werden hier der Übersichtlichkeit halber nur die beschriebene Gewichtungsvariante benutzt. Konkretisiert bedeutet es, dass wir im Rahmen der Arbeit die Regressionskoeffizienten der westlichen Region als Referenz definieren. Die Dekomposition nimmt daher die Form 
+Die Wahl des Referenzkoeffizienten, die in der fiktiven Welt ohne Renumerationsunterschiede zustande käme, unterliegt keinem systematischen Prozess. Eine identische Interpretation der Komponenten würde erlauben, wenn wir für die Berechnung des Ausstattungseffektes die Koeffizienten von Gruppe 2 und für die Berechnung des Preiseffektes die durchschnittliche Ausstattung von Gruppe 1 wählen würden. Obwohl die Literatur daher auch alternative Gewichtungsschemen für die Koeffizienten vorschlägt [@firpo2011], werden hier der Übersichtlichkeit halber nur die beschriebene Gewichtungsvariante benutzt. Konkretisiert bedeutet es, dass wir im Rahmen der Arbeit die Regressionskoeffizienten der westlichen Region als Referenz definieren. Die Dekomposition nimmt daher die Form 
 $$\underbrace{ln(\overline{Y}_W) - ln(\overline{Y}_E)}_{\text{Mean Differecnce (D)}} = \underbrace{(\overline{X}_W - \overline{X}_E)\hat{\beta}_{R=W}}_{\text{Endowment (E)}} + \underbrace{\overline{X}_E(\hat{\beta}_W - \hat{\beta}_E)}_{\text{Price (P)}}$$
 an, wobei unter $W$ die westliche und $E$ die östliche Region verstanden wird. Die Diskussion der Komponenten im Rahmen der Arbeit bezieht sich stets auf diese Variante der Zerlegung.
 
-## Inferenz 
+## 2.2 Inferenz 
 
-Um unsere geschätzten Parameter auf Unsicherheit zu testen, folgen wir der von Efron vorgeschlagenen Methodik zur Schätzung von Standardfehlern mit bootstraped Stichproben. Die Methodik erlaubt die wiederholte Berechnung von einer ausgewählten Statistik auf der Grundlage einer Stichprobe. Das so entstandene Sample der Statistik von Interesse stellt die geschätzte empirische Verteilungsfunktion dieser Statistik dar. Anhand dieser Verteilungsfunktion wird die Streuung der Statistik berechnet, die gleichzeitig als Standardfehler interpretiert werden kann. 
+Um unsere geschätzten Parameter auf Unsicherheit zu testen, folgen wir der von @efron1979 vorgeschlagenen Methodik zur Schätzung von Standardfehlern mit bootstraped Stichproben. Die Methodik erlaubt die wiederholte Berechnung von einer ausgewählten Statistik auf der Grundlage einer Stichprobe. Das so entstandene Sample der Statistik von Interesse stellt die geschätzte empirische Verteilungsfunktion dieser Statistik dar. Anhand dieser Verteilungsfunktion wird die Streuung der Statistik berechnet, die gleichzeitig als Standardfehler interpretiert werden kann. 
 
 Das Verfahren lässt sich im Kontext der OB-Dekomposition in vier einfachen Schritten zusammenfassen:
 
@@ -101,11 +111,11 @@ Das Bootstrapverfahren liefert die Samples von $S(D)$, $S(E)$, $S(P)$ mit jeweil
 
 Generell lässt sich nicht feststellen, wie hoch die Anzahl von Wiederholungen gesetzt werden muss. Nach mehreren Versuchen haben wir beobachtet, dass sich die Standardfehler ab 1000 Wiederholungen nicht mehr ändern deswegen haben wir uns für diese Anzahl entschieden. Aus Darstellungsgründen werden anschließend nicht die Standardfehler selbst, sondern die Konfidenzintervalle der Komponenten zum Niveau $95\%$ präsentiert. 
 
-# Daten
+# 3 Daten
 
 Um ein repräsentatives Bild über die Verteilung der personellen Einkommen in Ungarn zu erhalten, werden die zu diesem Land gehörenden Querschnittsdaten der EU-SILC Umfrage zwischen 2004 und 2017 ausgewertet. Der nicht-modifizierte Datensatz enthält annähernd 250 Tausend Personen und 120 Tausend Haushalte. Dies entspricht einer Stichprobengröße von durchschnittlich 20.000 Personen und 9.000 Haushalten pro Jahr. Von diesem Datensatz ausgehend werden zwei angepassten Stichproben erzeugt. In der ersten Stichprobe werden die relevanten aggregierten Einkommensvariablen entsprechend den Definitionen der Grundgesamtheit der Eurostat und der World Inequality Database (WID) erzeugt. Die zweite Stichprobe, die wir für die Analyse der Lohndifferenzen zwischen Ost- und Westungarn benutzen, beschränkt sich auf die Grundgesamtheit von unselbständig Beschäftigten. Der folgende Abschnitt beschreibt diese zwei modifizierten Datengrundlagen. 
 
-## Einkommensungleichheit nach Eurostat und WID 
+## 3.1 Einkommensungleichheit nach Eurostat und WID 
 
 Je nach Definition der Grundgesamtheit wird zwischen drei Einkommenskonzepten unterschieden. Faktoreinkommen vor Steuern (Factor) umfassen jährliche Bruttoeinnahmen aus selbständiger, unselbständiger Arbeit sowie Vermögenseinkommen. Somit geben die nach diesem Konzept berechneten Ungleichheitsindikatoren über die arbeitsmarktbezogene Prouktion Auskunft. Das Konzept der nationalen Einkommen (National) ergänzt die Faktoreinkommen mit den jährlichen Bruttoeinnahmen aus arbeitsbezogene Transferleistungen, wie Arbeitslosenversicherungen und Pensionen. Die Indikatoren, die auf dieses Konzept basieren, zeigen, inwieweit die personelle Einkommensverteilung durch das Transfersystem des Staates verändert. Schließlich wird das verfügbare Einkommen nach Steuern (Disposable) kalkuliert. Das Konzept des verfügbaren Einkommens unterscheidet sich von dem des nationalen Einkommens, indem das letztere um weitere jährliche monetäre Transfers des Staates, wie soziale Transferleistungen, ergänzt wird. Es zeigt daher, wie die Gesamteinkommen nach Steuerzahlungen im Land verteilt werden. 
 
@@ -113,11 +123,15 @@ Die drei Einkommenskonzepte werden je nach Definition der Grundgesamtheit anders
 
 Im Gegensatz dazu, zieht die Grundgesamtheitsdefinition nach WID nur Personen ab dem 20. Lebensalter in Betracht. Einkommensarten, die im EU-SILC Datensatz auf Haushaltseibene verfügbar sind, werden zunächst den Haushaltsmitgliedern über 20 zu gleichen Teilen zugewiesen und Personen jünger als 20 aus dem Subsample entfernt. Danach werden die drei Einkommensarten (Factor, National und Disposable) auf Individualebene erzeugt und die Indikatoren kalkuliert. Ähnlich wie vorher, werden Personen, die unter den aggregierten Einkommensvariablen über Minuswerte verfügen, ausgeschlossen.  
 
-## Löhne im Osten und Westen 
+## 3.2 Löhne im Osten und Westen 
 
-Um die Lohnunterschiede zwischen Ost- und Westungarn näher betrachten zu können, nehmen wir weitere Schritte in der Datenmodifikation vor. Zunächst werden die Personen im Datensatz anhand ihres Wohnortes getrennt. Die Variable, die für diesen Zweck benutzt wird, ermöglicht die Trennung von drei Regionen in Ungarn nach der NUTS-Klassifikation (Nomenclature of territorial units for statistics): Westungarn (Transdanubien), Mittelungarn (Budapest und die Vorstadt) bzw. Ostungarn (alle östlichen Regionen). Um den Lohnvergleich auf zwei Gruppen einschränken zu können, definieren wird Westungarn und Mittelungarn gemeinsam als Westen und Ostungarn als Osten.  
+Um die Lohnunterschiede zwischen Ost- und Westungarn näher betrachten zu können, nehmen wir weitere Schritte in der Datenmodifikation vor unf folgen dabei @grandner2015 mit geringfügigen Abweichungen. Zunächst werden die Personen im Datensatz anhand ihres Wohnortes getrennt. Die Variable, die für diesen Zweck benutzt wird, ermöglicht die Trennung von drei Regionen in Ungarn nach der NUTS-Klassifikation (Nomenclature of territorial units for statistics): Westungarn (Transdanubien), Mittelungarn (Budapest und die Vorstadt) bzw. Ostungarn (alle östlichen Regionen). Um den Lohnvergleich auf zwei Gruppen einschränken zu können, definieren wird Westungarn und Mittelungarn gemeinsam als Westen und Ostungarn als Osten.  
 
-Die abhängige Variable der durchgeführten Regressionen ist der logarithmierte Lohn pro Stunde, $ln(hwage)$. Er berechnet sich aus dem Bruttojahreseinkommen aus unselbständiger Beschäftigung dividiert durch die Anzahl der in dem Jahr geleisteten Arbeitsstunden. Da der letztere Term im Datensatz nicht unmittelbar dokumentiert wird, wird er aus dem Produkt von viermal den Stunden, die die Befragten insgesamt in ihrem Haupt- und Nebenberuf wöchentlich ableisten, und der Anzahl der Monate, in denen sie in diesen Stellen beschäftigt sind, berechnet. Anschließend wird die logarithmierte Form von $hwage$ kalkuliert. Dies ermöglicht im Anschluss die Interpretation der Regressionsergebnisse in log-Prozentpunkten, mit denen die Dekomposition durchgeführt wird. Die einzelnen Ergebnisse bezüglich der Lohnunterschiede zwischen Ost- und Westungarn können daher ebenfalls mit prozentualen Werten ausgedrückt werden. Auf der anderen Seite erlauben prozentuale Werte, schließende Aussagen unabhängig von zeitlichen Lohnniveauunterschieden zu treffen. Das Ausmaß der Inflation zwischen 2005 und 2013 verzerrt die vergleichenden Ergebnisse nicht. Diese beziehen sich nämlich auf relative Werte: die Löhne von westungarischen Beschäftigten im Verhältnis zu den von ostungarischen Beschäftigten. Dieses Verhältnis bleibt ceteris paribus mit steigendem Preisniveau unverändert. 
+Die abhängige Variable der durchgeführten Regressionen ist der logarithmierte Lohn pro Stunde, $ln(hwage)$. Er berechnet sich aus dem Bruttojahreseinkommen aus unselbständiger Beschäftigung dividiert durch die Anzahl der in dem Jahr geleisteten Arbeitsstunden. Da der letztere Term im Datensatz nicht unmittelbar dokumentiert wird, wird er aus dem Produkt von viermal den Stunden, die die Befragten insgesamt in ihrem Haupt- und Nebenberuf wöchentlich ableisten, und der Anzahl der Monate, in denen sie in diesen Stellen beschäftigt sind, berechnet. Anschließend wird die logarithmierte Form von $hwage$ kalkuliert. Dies ermöglicht im Anschluss die Interpretation der Regressionsergebnisse in log-Prozentpunkten, mit denen die Dekomposition durchgeführt wird. Die einzelnen Ergebnisse bezüglich der Lohnunterschiede zwischen Ost- und Westungarn können daher ebenfalls mit prozentualen Werten ausgedrückt werden. Auf der anderen Seite erlauben prozentuale Werte, schließende Aussagen unabhängig von zeitlichen Lohnniveauunterschieden zu treffen. Das Ausmaß der Inflation zwischen 2005 und 2013 verzerrt die vergleichenden Ergebnisse nicht. Diese beziehen sich nämlich auf relative Werte: die Löhne von westungarischen Beschäftigten im Verhältnis zu den von ostungarischen Beschäftigten. Dieses Verhältnis bleibt ceteris paribus mit steigendem Preisniveau unverändert.
+
+```{r, echo=FALSE, results='asis'}
+tab1
+```
 
 Die unabhängigen Kontrollvariablen der Regression beziehen sich zum Teil auf die Humankapitalausstattung. Der Lohn der ArbeitnehmerInnen wird insbesondere von ihrer Berufserfahrung bestimmt. Da diese Informationen im Datensatz aus technischen Gründen fehlen, wird die Beschäftigungserfahrung als kontinuierliche Proxyvariable $exper$ erfasst, berechnet durch die Differenz zwischen dem Umfragejahr und dem Jahr, in dem der höchste Bildungsabschluss erfolgte. Die quadrierten Werte der Beschäftigungserfahrung $expersq$ wird ebenfalls in die Regression aufgenommen, um der Abschreibung auf Humankapital Rechnung zu tragen. Der höchste Bildungsabschluss, als zweiter Bestimmungsfaktor des Humankapitals, wird anhand der ISCED-Ebenen in drei integrierten Kategorien zusammengefasst. Die Variable $educ$ nimmt den Wert $Low$ an, wenn die Befragten einen unteren sekundären oder niedrigeren Bildungsabschluss aufweisen: Die Kategorie entspricht den ISCED-Ebenen 0 bis 2. Ein Bildungsabschluss auf höherer sekundärer oder post-sekundärer Stufe wird reflektierend auf die dritte und vierte Ebene mit $Middle$ kodiert. Mit $High$ werden schließlich hochschulische (tertiäre) Bildungsabschlüsse entsprechend der fünften Ebene gekennzeichnet. 
 
@@ -127,17 +141,32 @@ Ebenso mit Kontrollvariablen werden die engeren betrieblichen Eigenschaften der 
 
 Schließlich wird der sozioökonomische Hintergrund der Befragten mit drei weiteren Kontrollvariablen abgegrenzt. Die Dummy-Variable $Male$ ist gleich 1, wenn die Person männlich ist. Ist die Person weiblich gilt die Variable $Female$. Lebt sie in einer Beziehung mit einer anderen Person im selben Haushalt, jedoch unabhängig vom legalen Status der Beziehung, wird das mit der Variablen $Couple$ gedeckt. Im Gegensatz dazu, wenn keine Haushaltsunion vorhanden ist, wird die Variable $Single$ verwendet. Abschließend erscheint die Variable $Densely$ in der Regression, wenn die Person in einer dicht bewohnten Region mit mindestens fünfzigtausend Einwohnern lebt. 
 
-```{r, echo=FALSE, results='asis'}
-tab1
-```
-
 Anhand der beschriebenen Variabenspezifikation werden zwei Regressionen durchgeführt. In der ersten Regression kontrollieren wir nur nach produktivtätsrelevanten und sozioökonomischen Eigenschaften der ArbeitnehmerInnen (im Weiteren als einfaches Model bezeichnet):
 $$\begin{split} ln(hwage)_{kt} = exper + exper^2 + educ\_Middle + educ\_High + \\ + female + union\_Couple + urban\_Densely. \end{split}$$
 In der zweiten Regeression ergänzen wir die Kontrollvariablen mit Eigenschaften des Berufsstelle der ArbeitnehmerInnen (Erweitertes Model):
 $$\begin{split} ln(hwage)_{kt} = exper + exper^2 + educ\_Middle + educ\_High + \\ + female + union\_Couple + urban\_Densely + \\ +sector\_PUB + sector\_SERV + firmsize\_Big + \\ + isco\_Skilled + contact\_Permanent. \end{split}$$
 Beide Regressionen werden entsprechend der ökonometrischen Spezifikation im Kapitel 3 für die beiden Regionen $k=\{East, West\}$ geschätzt und der Prozess wird zu jedem Zeitpunkt $t=\{2005, ..., 2016\}$ repliziert. Jede Schätzung wurde darüber hinaus mit den angegebenen persönlichen Stichprobengewichten korrigiert, um den Verzerrungen im Stichprobendesign gegenüber der Population entgegenzuwirken.
 
-# Ergebnisse
+# 4. Ergebnisse
+
+Entsprechend der beschriebenen Datenspezifikation präsentiert Kapitel 4 die Ergebnisse der empirischen Untersuchung. Zunächst wird die Ungleichheit auf aggregierter Ebene mit den ausgewählten Indikatoren diskutiert gefolgt von der Zerlegung der regionalen Lohndifferenzen. 
+
+## 4.1 Ungleichheit in Ungarn 
+
+Ungarn zählt im internationalen Vergleich zu den Staaten mit post-sozialistischen Wohlfahrtsregimen. Eine Gemeinsamkeit dieser Länder stellt die erhöhte Einkommensungleichheit während der Transition von der Planwirtschaft zur liberalisierten Marktwirtschaft seit den frühen 90-er Jahren dar, die mangels starker Umverteilungsinstitutionen bestehen blieb. @toth_2004 dokumentiert diesbezüglich einen Anstieg des Gini-Koeffizienten von mehr als 10 Prozentpunkten zwischen 1990 und 2004. Unsere Zeitreihe beginnt zu diesem Zeitpunkt (siehe auch Abbildung 4 und 5). 
+
+Wählt man die Grundgesamtheit nach der Definition der Eurostat, belief sich das durchschnittliche äquivalisierte Faktoreinkommen im Jahre des EU-Betritts Ungarns auf etwas mehr als 3500 EUR und stieg bis zum Ausbruch der Weltwirtschaftskrise um etwa 1000 EUR. Nach einem kurzen Rückfall während der Krisenjahre fing es an mit einer ähnlichen Rate zu steigen, bis es am Ende unserer Beobachtungszeitraum 5000 EUR erreichte. Pensionen und arbeitsmartbezogene  Transferleistungen erhöhten dabei das Durchschnittseinkommen in der gesamten Periode um annähernd 1000 EUR, was im Fall von Ungarn insbesondre auf die hohe Anzahl an PensionsbezieherInnen hindeutet [@ksh2018]. Dass Ungarns Steuersystem nur einen mäßigen Effekt auf die Einkommen hat, zeigt der relativ kleine Unterschied zwischen dem nationalen und verfügbaren Medianeinkommen insbesondere bis zum Ausbruch der Krise. Die durch die Krise ausgelösten Reformen betrafen hauptsächlich die Steuereinnahmen des Staates [@toth_2010], was wiederum die Differenz zwischen dem nationalen und verfügbaren Einkommen erhöhte.  
+
+Überdies weisen alle drei ausgewählten Ungleichheitsindikatoren auf eine kleine aber ersichtliche Konvergenz der Einkommensarten hin. Dies bedeutet in erster Linie, dass Faktoreinkommen im Laufe der Zeit gleicher verteilt werden. Dieses Phänomen wird insbesondere durch die steigende Beschäftigungsrate und die erhöhte Anzahl von den im öffentlichen Beschäftigungsprogramm angestellten Langzeitarbeitslosen erklärt [@kozmunka]. Gelichzeitig waren die Folgejahre der Krise von Kürzungen der Sozialleistungen geprägt, was den ungefähr 5-prozentigen Anstieg des Gini-Koeffizienten des verfügbaren Einkommens begründet. Obwohl eine solche auf mehrere Einkommensarten ausgedehnte Vergleichszeitreihe zur Ungleichheit zur Zeit dieser Arbeit nicht zur Verfügung steht, sind unsere Berechnungen zu den verfügbaren Einkommen beinahe identisch mit denen des statistischen Amtes in Ungarn [@ksh2014; @ksh2015; @ksh2016].      
+
+Ein Vergleich dieser Ergebnisse mit den Berechnungen nach der WID-Definition weist auf kleine Niveauunterschiede hin. Generell lässt sich sagen, dass das berechnete Durchschnitts- und Medianeinkommen nach dieser Definition niedriger und die Ungleichheitsindikatoren höher ausfallen als nach der Definition der Eurostat
+
+# 4.2 Lohnlücke zwischen Osten und Westen
+
+Im Folgenden fokussieren wir auf die Stundenlohndifferenzen zwischen Westungarn und Ostungarn. Wie es auch Abbildung 2 und Abbildung 3 zeigen, ermöglichen unsere Berechnungen die Analyse des durchschnittlichen Lohnabstandes zwischen 2005 und 2016.  
+
+Laut unserer Berechnungen belief sich der die durchschnittliche Stundenlohndifferenz zwischen den zwei Regionen auf ungefähr 15 % am Anfang dieser Periode und stieg um mehr als 2 Prozentpunkten in den nächsten zwei Jahren. Diese Ergebnisse stehen im Einklang mit der Studie der @pagenda2017, die regionale Lohndifferenzen untersucht. Die Studie vergleicht Löhne aus westungarischen Regionen mit den höchsten monatlichen Löhnen, mit denen aus Ostungarn mit den niedrigsten Löhnen und kommt auf das Ergebnis von einem monatlichen Lohnunterschied von 16 % im Jahre 2006. Zu Beginn der Weltwirtschaftskriese im Jahre 2008 zeigte sich ein signifikanter Rückgang, der den Gap um annähernd 5 Prozentpunkte auf 12 % milderte. Ein solcher Effekt des Rückganges der wirtschaftlichen Leistung auf regionaler Ebene ist plausibel, da es erwartet wird, dass die Krise die Regionen mit höherer Produktion schwerer betrifft. In Ungarn sind es hauptsächlich westliche Regionen, auf die der Industrie- und Finanzsektor konzentriert ist. Die Konvergenz der Löhne von West- und Ostungarn wird folglich durch den Rückgang der Löhne in Westungarn erklärt [@crisis_2011]. Aus der Zeitreihe wird jedoch ersichtlich, dass der gesunkene Lohnunterschied am Ende der Krise im Jahre 2010 anfängt, wieder zu steigen. Dieser Anstieg hielt bis zum Ende unseres Untersuchungszeitraumes 2016 aus. Nach der ersten Anstiegsperiode zwischen 2009 und 2011 stagniert der Lohnabstand bis 2013, erreicht jedoch eine Rekordhöhe von mehr als 22 % im Jahre 2015.
+
 \begin{figure}
 \caption{Dekomposition - Einfaches Model}
 ```{r, echo=FALSE, warning=FALSE, fig.align='center'}
@@ -145,6 +174,8 @@ abb3
 ```
 \footnotesize{\textit{Quelle:} EU-SILC 2006-20017, eigene Berechnungen}
 \end{figure}
+
+Unsere Arbeit beschäftigt sich mit der Frage, wie diese Entwicklung durch die regional unterschiedliche Humankapital- und Beschäftigungsstruktur der ArbeitnehmerInnen erklären lässt. Um den Qualifikationsunterschieden von westungarischen und ostungarischen Beschäftigten Rechnung zu tragen, haben wir deshalb im ersten Schritt die Differenz nur nach Humankapitalunterschiede kontrolliert. Der erklärte Teil der Berechnungen (Grün-X) zeigt daher den Teil der Differenz, der daraus resultiert, dass westungarische Beschäftigte besser qualifiziert sind als ostungarische Beschäftigte und widerspiegelt das Konzept “Gleicher Lohn für gleiche Qualifikation”. Wie es aus Abbildung 2 ersichtlich wird, spielten solche Qualifikationsunterschiede im unseren Untersuchungszeitraum eine beschränkte jedoch signifikante Rolle. Entlang der Zeitreihe sind es konstante 4 bis 5 Prozentpunkte der Gesamtdifferenz (etwa 20 % im Jahre 2005 und 17 % im Jahre 2016), die durch das niedrigere Bildungsniveau und die niedrigere Berufserfahrung ostungarischer Beschäftigten erklärt werden kann. Im Weiteren beinhaltet dieser Anteil auch Unterschiede in demographischen und sozialökonomischen Merkmalen. Der restliche Teil der Differenz ergibt sich durch die regional unterschiedliche Renumeration dieser Eigenschaften: mit anderen Worten aus den unterschiedlichen Returns für Humankapital. In unserem einfachen Model sind größtenteils diese Renumerationsunterschiede für die Gesamtdifferenz verantwortlich. Es bedeutet daher, dass Arbeitnehmer in Ostungarn auch dem Fall weniger verdienen würden, wenn ihre Qualifikation, mit der von westungarischen ArbeitnehmerInnen entsprechen würde. Außerdem, da die relative Ausstattung von Ostungarn über die Zeit konstant ist, ist die Variation der Gesamtdifferenz fast hundertprozentig auf die Variation der Renumerationsunterschiede zurückzuführen.
 
 \begin{figure}
 \caption{Dekomposition - Erweitertes Model}
@@ -154,7 +185,22 @@ abb4
 \footnotesize{\textit{Quelle:} EU-SILC 2006-20017, eigene Berechnungen}
 \end{figure}
 
+Aufgrund der Restriktionen des einfachen Models wird erwartet, dass die geschätzten Koeffizienten in diesem Model durch die Korrelation des Residualen mit nicht-beobachteten Variablen überschätzt werden. Solche Variablen sind in unseren theoretischen Hintergrund insbesondere im Rahmen von der Produktivität relevanten Firmeneigenschaften eingebettet. Ohne die Kontrolle nach diesen Eigenschaften wird dementsprechend auch der nicht-erklärte Teil der Differenzzerlegung überschätzt. Um die Bedeutung der Produktivität besser abgrenzen zu können, haben wir deshalb ins erweiterte Model weitere firmenspezifische Kontrollvariablen aufgenommen. Die so berechneten Differenzkomponenten geben darüber Auskunft, ob der das Konzept “Gleicher Lohn für gleicher Job” gegeben ist. Mit anderen Worten: Wir kontrollieren danach, dass ArbeitnehmerInnen mit identischer Qualifikation in Firmen mit generell höherer Produktivität (z.B. wegen technologischen Vorteilen) besser entlohnt werden.
+
+Die Parameter der Zerlegung ändern sich signifikant nach der Kontrolle von solchen Firmeneigenschaften. Generell lässt sich sagen, dass der erklärte Teil der Differenz durch die Verwendung des erweiterten Models deutlich höher ausfällt. Während das einfache Model im Jahre 2005 weniger als 5 Prozentpunkte der Gesamtdifferenz erklären konnte, erhöht sich dieser Anteil auf annähernd 10 Prozentpunkte im Fall des erweiterten Models. Ausgeprägt ist die Höhe der erklärten Differenz insbesondere in der Postkrisenzeit: von dem markanten Anstieg der Gesamtdifferenz auf 22 % wird durch das erweiterte Modell 14 Prozentpunkten (annähernd 65 %) erklärt. Im Gegensatz dazu sinkt die Rolle von Renumerationsunterschiede entlang der gesamten Zeitreihe auffällig. Im Vergleich mit dem erweiterten Modell wird dieser Parameter in der Zerlegung mit dem einfachen Modell im Jahre 2005 um 4 Prozentpunkte und im Jahre 2015 um 5 Prozentpunkte überschätzt. Außerdem verliert der Preiseffekt bei der Erklärung der Tendenz der Gesamtdifferenz an Bedeutung.
+
+Die Erkenntnisse aus dem Vergleich Ausbildung 2 und 3 deuten auf drei wichtige Elemente der Ost-West-Lohnlücke hin. Erstens ist es beachtlich, dass die zwei Regionen im Untersuchungseitraum in Bezug auf Stundenlöhne noch heterogener wurden. Zweitens wurde ersichtlich, dass die Differenz der Humankapitalausstattung von östlichen und westlichen Arbeitnehmern zwar klein ist, erklärt jedoch einen konstanten und signifikanten Anteil an der gesamten Lohndifferenz nach wie vorher. Drittens ist es zu bemerken, dass die Erweiterung des Modells um einige firmenspezifische Eigenschaften darauf hinweist, dass die Tendenz der durchschnittlichen Lohndifferenz zwischen Westen und Osten durch solche Merkmale bestimmt werden, die zwar unabhängig vom Humankapital sind, aber stark mit der Entlohnung der Arbeitnehmer zusammenhängen. Diese Merkmale umfassen Variablen, die die Produktivität auf Firmenebene abbilden.
+
 # Konklusion
+
+Die Arbeit untersuchte die Einkommensverteilung in Ungarn, wobei der Schwerpunkt der Analyse auf dem Lohnunterschied zwischen westungarischen und ostungarischen ArbeitnehmerInnen lag. Die empirischen Ergebnisse deuteten darauf hin, dass die Einkommensungleichheit in Ungarn seit der Finanzkrise im Jahre 2009 zwar gestiegen ist, dieser Anstieg war jedoch nicht von erheblicher Bedeutung und betraf langfristig nur die Verteilung der verfügbaren Einkommen. Betrachtet man die ganze Untersuchungsperiode, beobachtet man einen kleinen Rückgang der Ungleichheit der Faktoreinkommen. Da Löhne einen deutlichen Teil der Faktoreinkommen ausmachen, wäre eine Konvergenz der Löhne von wenig- und vielverdienenden ArbeitnehmerInnen plausible gewesen. 
+
+Die Ergebnisse in Bezug auf Ost-West-Lohnlücke weichen von dieser Erwartung ab. Die regionalen Lohndisparitäten sind im Land nach einem Rückfall zwischen 2005 und 2010 wieder angestiegen. Der durchschnittliche Stundenlohnabstand erhöhte sich um 7 Prozentpunkte auf 22%. Eine Dekompositionsanalyse zeigte, dass sich dieser Lohnabstand zwar einigermaßen durch das schlechtere Qualifikationsniveau ostungarischer Arbeitnehmer erklären lässt, der Rest der Differenz ist insbesondere auf die unterschiedliche Entlohnung der Humankapitalausstattung und die Merkmale des Arbeitsplatzes der Beschäftigten zurückzuführen ist. 
+
+# Literatur
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+<div id="refs"></div>
 
 # Appendix
 
@@ -190,3 +236,4 @@ abb2_3
 abb2_4
 abb2_5
 ```
+
