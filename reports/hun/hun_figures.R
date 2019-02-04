@@ -11,7 +11,7 @@ indicators_p1_2$var[
 
 # Mean
 abb1_1 = ggplot(subset(indicators_p1_2, stat == 'Mean'), 
-              aes(x = rb010-1, 
+              aes(x = rb010, 
                   y = value,
                   colour = var)) + 
   geom_line(size = 2) + 
@@ -28,7 +28,7 @@ abb1_1 = ggplot(subset(indicators_p1_2, stat == 'Mean'),
 
 # Median
 abb1_2 = ggplot(subset(indicators_p1_2, stat == 'Q50'), 
-                aes(x = rb010-1, 
+                aes(x = rb010, 
                     y = value,
                     colour = var)) + 
   geom_line(size = 2) + 
@@ -45,7 +45,7 @@ abb1_2 = ggplot(subset(indicators_p1_2, stat == 'Q50'),
 
 # Gini
 abb1_3 = ggplot(subset(indicators_p1_2, stat == 'Gini'), 
-                aes(x = rb010-1, 
+                aes(x = rb010, 
                     y = value,
                     colour = var)) + 
   geom_line(size = 2) + 
@@ -62,7 +62,7 @@ abb1_3 = ggplot(subset(indicators_p1_2, stat == 'Gini'),
 
 # P80/P20
 abb1_4 = ggplot(subset(indicators_p1_2, stat == 'P80/P20'), 
-                aes(x = rb010-1, 
+                aes(x = rb010, 
                     y = value,
                     colour = var)) + 
   geom_line(size = 2) + 
@@ -79,7 +79,7 @@ abb1_4 = ggplot(subset(indicators_p1_2, stat == 'P80/P20'),
 
 # Top10
 abb1_5 = ggplot(subset(indicators_p1_2, stat == 'Top10'), 
-                aes(x = rb010-1, 
+                aes(x = rb010, 
                     y = value,
                     colour = var)) + 
   geom_line(size = 2) + 
@@ -108,7 +108,7 @@ indicators_p2_2$var[
 
 # Mean
 abb2_1 = ggplot(subset(indicators_p2_2, stat == 'Mean'), 
-                aes(x = pb010-1, 
+                aes(x = pb010, 
                     y = value,
                     colour = var)) + 
   geom_line(size = 2) + 
@@ -125,7 +125,7 @@ abb2_1 = ggplot(subset(indicators_p2_2, stat == 'Mean'),
 
 # Median
 abb2_2 = ggplot(subset(indicators_p2_2, stat == 'Q50'), 
-                aes(x = pb010-1, 
+                aes(x = pb010, 
                     y = value,
                     colour = var)) + 
   geom_line(size = 2) + 
@@ -142,7 +142,7 @@ abb2_2 = ggplot(subset(indicators_p2_2, stat == 'Q50'),
 
 # Gini
 abb2_3 = ggplot(subset(indicators_p2_2, stat == 'Gini'), 
-                aes(x = pb010-1, 
+                aes(x = pb010, 
                     y = value,
                     colour = var)) + 
   geom_line(size = 2) + 
@@ -159,7 +159,7 @@ abb2_3 = ggplot(subset(indicators_p2_2, stat == 'Gini'),
 
 # P80/P20
 abb2_4 = ggplot(subset(indicators_p2_2, stat == 'P80/P20'), 
-                aes(x = pb010-1, 
+                aes(x = pb010, 
                     y = value,
                     colour = var)) + 
   geom_line(size = 2) + 
@@ -171,12 +171,12 @@ abb2_4 = ggplot(subset(indicators_p2_2, stat == 'P80/P20'),
         axis.title.x = element_blank(),
         legend.position = 'top',
         legend.title = element_blank()) + 
-  scale_y_continuous(limits = c(0, 210)) +
+  scale_y_continuous(limits = c(0, 350), breaks = seq(0,350, 50)) +
   ggsave('reports/hun/hun_img/abb2_4.png')
 
 # Top10
 abb2_5 = ggplot(subset(indicators_p2_2, stat == 'Top10'), 
-                aes(x = pb010-1, 
+                aes(x = pb010, 
                     y = value,
                     colour = var)) + 
   geom_line(size = 2) + 
@@ -194,7 +194,7 @@ abb2_5 = ggplot(subset(indicators_p2_2, stat == 'Top10'),
 ################################################################################
 ### Abbildung 3/4:
 
-abb4 = ggplot(data = results,aes(year-1)) + 
+abb4 = ggplot(data = results,aes(year)) + 
   geom_ribbon(aes(ymin = lower, 
                   ymax = upper,
                   fill = stat), 
@@ -213,7 +213,7 @@ abb4 = ggplot(data = results,aes(year-1)) +
         legend.title = element_blank())
 
 
-abb3 = ggplot(data = results2,aes(year-1)) + 
+abb3 = ggplot(data = results2,aes(year)) + 
   geom_ribbon(aes(ymin = lower, 
                   ymax = upper,
                   fill = stat), 

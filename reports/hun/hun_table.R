@@ -84,7 +84,7 @@ tab1 = kable(tab1,
 ### Table 2 
 
 tab2 = indicators_p1 %>% melt(id = c('rb010', 'stat'))
-tab2$rb010 = tab2$rb010 - 1
+tab2$rb010 = tab2$rb010
 tab2 = tab2 %>% spread(rb010, value)
 tab2$stat = factor(tab2$stat, levels = c('Mean', 
                                          'Q50', 
@@ -104,7 +104,7 @@ tab2 = tab2 %>%
         booktabs = T,
         caption = "Ungleichheitsindikatoren nach Eurostat",
         row.names = FALSE,
-        col.names = c("", c(2004:2016))) %>%
+        col.names = c("", c(2005:2017))) %>%
   kable_styling(latex_options = 'scale_down') %>%
   group_rows("Mean", 1, 3) %>%
   group_rows("Median", 4, 6) %>%
@@ -119,7 +119,7 @@ tab2 = tab2 %>%
 ### Table 3 
 
 tab3 = indicators_p2 %>% melt(id = c('pb010', 'stat'))
-tab3$pb010 = tab3$pb010 - 1
+tab3$pb010 = tab3$pb010
 tab3 = tab3 %>% spread(pb010, value)
 tab3$stat = factor(tab3$stat, levels = c('Mean', 
                                          'Q50', 
@@ -139,7 +139,7 @@ tab3 = tab3 %>%
         booktabs = T,
         caption = "Ungleichheitsindikatoren nach WID World",
         row.names = FALSE,
-        col.names = c("", c(2004:2016))) %>%
+        col.names = c("", c(2005:2017))) %>%
   kable_styling(latex_options = 'scale_down') %>%
   group_rows("Mean", 1, 3) %>%
   group_rows("Median", 4, 6) %>%
@@ -153,7 +153,7 @@ tab3 = tab3 %>%
 
 ### Table 4
 tab4 = results2
-tab4$year = tab4$year - 1
+tab4$year = tab4$year
 tab4$lower = round(tab4$lower, digits = 4)
 tab4$upper = round(tab4$upper, digits = 4)
 tab4$value = round(tab4$value, digits = 4)
@@ -168,11 +168,11 @@ tab4 = tab4 %>%
         booktabs = T,
         caption = "Dekomposition - Einfaches Model",
         row.names = FALSE,
-        col.names = c("", c(2005:2016))) %>%
+        col.names = c("", c(2006:2017))) %>%
   kable_styling(latex_options = 'scale_down') %>%
   group_rows('Diffrence (D)', 1, 2) %>%
-  group_rows('Price (P)', 3, 4) %>%
-  group_rows('Endowment (X)', 5, 6) %>%
+  group_rows('Endowment (X)', 3, 4) %>%
+  group_rows('Price (P)', 5, 6) %>%
   footnote(general = 'EU-SILC 2005-2017, eigene Berechnungen.',
            footnote_as_chunk = T,
            general_title = "Quelle:") %>%
@@ -180,7 +180,7 @@ tab4 = tab4 %>%
 
 ### Table 5
 tab5 = results
-tab5$year = tab5$year - 1
+tab5$year = tab5$year 
 tab5$lower = round(tab5$lower, digits = 4)
 tab5$upper = round(tab5$upper, digits = 4)
 tab5$value = round(tab5$value, digits = 4)
@@ -197,11 +197,11 @@ tab5 = tab5 %>%
         booktabs = T,
         caption = "Dekomposition - Erweitertes Model",
         row.names = FALSE,
-        col.names = c("", c(2005:2016))) %>%
+        col.names = c("", c(2006:2017))) %>%
   kable_styling(latex_options = 'scale_down') %>%
   group_rows('Diffrence (D)', 1, 2) %>%
-  group_rows('Price (P)', 3, 4) %>%
-  group_rows('Endowment (X)', 5, 6) %>%
+  group_rows('Endowment (X)', 3, 4) %>%
+  group_rows('Price (P)', 5, 6) %>%
   footnote(general = 'EU-SILC 2005-2017, eigene Berechnungen.',
            footnote_as_chunk = T,
            general_title = "Quelle:") %>%

@@ -1,11 +1,12 @@
-% Used for placing figures more precisely
-\usepackage{float} 
-      \let\origfigure\figure 
-      \let\endorigfigure\endfigure
-      \renewenvironment{figure}[1][2] {
-        \expandafter\origfigure\expandafter[H]
-      } {\endorigfigure}
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{INEQ - Ungarn}
+\rhead{Azad, R. und Zöldi, L. Z.}
+\cfoot{\thepage}
 
 \usepackage{multicol}
+
 \usepackage{graphicx}
+
 \usepackage{ngerman}

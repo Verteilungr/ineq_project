@@ -11,14 +11,14 @@ library(convey)
 svy_hun_p1 = svydesign(ids = ~idp,
                        strata = ~db040,
                        weights = ~rb050,
-                       data = subset(hun_p1, pretax_factor_eq >= 0)) %>% 
+                       data = hun_p1) %>% 
   convey_prep()
 
 # wid.world (P2)
 svy_hun_p2 = svydesign(ids = ~idp,
                        strata = ~db040,
                        weights = ~pb040,
-                       data = subset(hun_p2, pretax_factor_20 >= 0)) %>% 
+                       data = hun_p2) %>% 
   convey_prep()
 
 ################################################################################
