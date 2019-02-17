@@ -72,7 +72,7 @@ for (y in c(2006:2017)) {
             firmsize_Big +
             contract_Permanent + 
             urban_Densely +
-            union_Couple, data = hundat2, year = y, statistic = fundec, R=100)
+            union_Couple, data = hundat2, year = y, statistic = fundec, R=10)
   
   bsci_diff = boot.ci(bs, type = 'norm', index = 1)
   bsci_x = boot.ci(bs, type =  'norm', index = 2)
@@ -103,7 +103,7 @@ for (y in c(2006:2017)) {
               educ_High + 
               educ_Middle +
               female_Female +
-              union_Couple, data = hundat2, year = y, statistic = fundec, R=100)
+              union_Couple, data = hundat2, year = y, statistic = fundec, R=10)
   
   bsci_diff = boot.ci(bs, type = 'norm', index = 1)
   bsci_x = boot.ci(bs, type =  'norm', index = 2)

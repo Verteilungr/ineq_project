@@ -68,7 +68,7 @@ tab1 = kable(tab1,
              booktabs = T,
              escape = F,
              col.names = c("Variable", linebreak(c("Mean hwage\nEast", "Mean hwage\nWest"), align = "r"), "N", "N(East)/N")) %>%
-  kable_styling(font_size = 10, full_width = T) %>%
+  kable_styling(font_size = 10, full_width = F) %>%
   group_rows("Sex", 1, 2) %>%
   group_rows("Education", 3, 5) %>%
   group_rows("Union", 6, 7) %>%
